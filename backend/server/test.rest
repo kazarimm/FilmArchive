@@ -50,3 +50,12 @@ Content-Type: application/json
 
 ###
 POST  http://localhost:8081/user/deleteAll
+
+###
+POST http://localhost:8081/commentFlags/add
+Content-Type: application/json 
+
+{
+    "commentId" : "635ab8dfc407faf9f73deaf2",
+    "reviewStatus" : "pending"
+}
