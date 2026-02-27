@@ -16,9 +16,6 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/:filmId', async (req, res) => {
-  const comments = await Comment.find({ filmId: req.params.filmId });
-  res.status(200).json(comments);
-});
+
 
 module.exports = router;

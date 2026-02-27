@@ -7,12 +7,12 @@ const CommentSchema = new mongoose.Schema({
     },
 
     filmId: {
-        type: String,   
+        type: String,   // <-- CHANGE to String for now (easier for testing)
         required: true
     },
 
     userId: {
-        type: String,   
+        type: String,   // <-- CHANGE to String for now
         required: true
     },
 
