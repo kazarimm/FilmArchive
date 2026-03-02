@@ -12,8 +12,8 @@ const addCommentFlag = require('./routes/commentFlags/postCommentFlag')
 const addWatchlistItem = require('./routes/watchlist/addWatchlist')
 const fetchWatchlistItem = require('./routes/watchlist/fetchWatchlist')
 //const commentRoutes = require('./routes/Comments');
-const addCommentRoutes = require('./routes/addComment');
-const fetchCommentRoutes = require('./routes/fetchComment');
+const addCommentRoutes = require('./routes/commentRoute/addComment');
+const fetchCommentRoutes = require('./routes/commentRoute/fetchComment');
 const voteRoutes = require('./routes/vote');
 require('dotenv').config();
 const SERVER_PORT = 8081
