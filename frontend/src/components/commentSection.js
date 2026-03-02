@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../App';
-import '../../css/comments.css';
+import { UserContext } from '../App';
+import '../css/comments.css';
 
 const CommentsSection = ({ filmId }) => {
     const [comments, setComments] = useState([]);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Comment = require('../models/comment');
+const Comment = require('../../models/comment');
 
 
 router.get('/:filmId', async (req, res) => {
