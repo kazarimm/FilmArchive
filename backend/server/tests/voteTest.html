@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vote Test</title>
+</head>
+<body>
+
+<h2>Vote Test</h2>
+
+<input type="text" id="commentId" placeholder="Comment ID">
+<br><br>
+
+<button onclick="upvote()">Upvote</button>
+<button onclick="downvote()">Downvote</button>
+<button onclick="getVotes()">Get Vote Total</button>
+
+<h3>Result:</h3>
+<pre id="result"></pre>
+
+<script>
+const userId = "69a1aa220ad97eec70151883"; 
+
+async function upvote() {
+    await sendVote(1);
+}
+
+async function downvote() {
+    await sendVote(-1);
+}
+
+async function sendVote(value) {
+
+    const input = document.getElementById("commentId");
+
+    if (!input) {
+        console.error("commentId input not found in DOM");
+        return;
+    }
+
+    const commentId = input.value.trim();
+
+    if (!commentId) {
+        document.getElementById("result").textContent =
+            "Please enter a comment ID.";
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:8081/vote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                commentId,
+                userId,
+                value
+            })
+        });
+
+        const data = await response.json();
+        document.getElementById("result").textContent =
+            JSON.stringify(data, null, 2);
+
+    } catch (err) {
+        document.getElementById("result").textContent =
+            "Fetch error: " + err.message;
+    }
+}
+
+async function getVotes() {
+    const commentId = document.getElementById("commentId").value.trim();
+
+    const objectIdPattern = /^[a-fA-F0-9]{24}$/;
+
+    if (!objectIdPattern.test(commentId)) {
+        document.getElementById("result").textContent =
+            "Invalid Comment ID. Must be a 24-character hex string.";
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8081/vote/${commentId}`);
+        const data = await response.json();
+
+        document.getElementById("result").textContent =
+            JSON.stringify(data, null, 2);
+
+    } catch (err) {
+        document.getElementById("result").textContent =
+            "Fetch error: " + err.message;
+    }
+}
+</script>
+
+</body>
+</html>
