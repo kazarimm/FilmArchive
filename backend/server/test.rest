@@ -61,7 +61,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8081/comments/create
+GET http://localhost:8081/comments/12345
 
 ###
 
