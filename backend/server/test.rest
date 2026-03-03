@@ -59,3 +59,15 @@ Content-Type: application/json
     "commentId" : "635ab8dfc407faf9f73deaf2",
     "reviewStatus" : "pending"
 }
+
+###
+GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
+### 
+
+POST http://localhost:8081/watchlist/add
+Content-Type: application/json
+
+{
+    "userId" : "6973bab1469d1de7506b1016",
+    "imdbID" : "tt17663992"
+}
