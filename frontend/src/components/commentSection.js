@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { UserContext } from '../App';
 import '../css/comments.css';
 
@@ -8,23 +8,23 @@ const CommentsSection = ({ filmId }) => {
     const [loading, setLoading] = useState(false);
     const user = useContext(UserContext);
 
-    // Fetch comments on mount
-    useEffect(() => {
-        fetchComments();
-    }, [filmId]);
 
-    const fetchComments = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`http://localhost:8081/comments/${filmId}`);
-            const data = await response.json();
-            setComments(data);
-        } catch (err) {
-            console.error('Error fetching comments:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const fetchComments = useCallback(async () => {
+    try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:8081/comments/${filmId}`);
+        const data = await response.json();
+        setComments(data);
+    } catch (err) {
+        console.error('Error fetching comments:', err);
+    } finally {
+        setLoading(false);
+    }
+}, [filmId]);
+
+useEffect(() => {
+        fetchComments();
+    }, [fetchComments]);
 
     const handleAddComment = async (e) => {
         e.preventDefault();
