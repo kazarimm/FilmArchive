@@ -1,4 +1,4 @@
-POST http://localhost:8080/user/signup
+POST http://localhost:8081/user/signup
 Content-Type: application/json 
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8080/user/login
+POST http://localhost:8081/user/login
 Content-Type: application/json 
 
 {
@@ -49,6 +49,22 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:8081/comments/create
+Content-Type: application/json
+
+{
+  "content": "This is a test comment.",
+  "username": "tochiamanze",
+  "filmId": "12345",
+  "userId": "someUserId"
+}
+
+###
+
+GET http://localhost:8081/comments/12345
+
+###
+
 POST  http://localhost:8081/user/deleteAll
 
 ###
@@ -58,16 +74,4 @@ Content-Type: application/json
 {
     "commentId" : "635ab8dfc407faf9f73deaf2",
     "reviewStatus" : "pending"
-}
-
-###
-GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
-### 
-
-POST http://localhost:8081/watchlist/add
-Content-Type: application/json
-
-{
-    "userId" : "6973bab1469d1de7506b1016",
-    "imdbID" : "tt17663992"
 }
