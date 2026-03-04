@@ -69,7 +69,7 @@ POST  http://localhost:8081/user/deleteAll
 
 
 
-//COMMENTS FLAG TEST
+//COMMENTS FLAG TEST (KABANGA)
 ###
 POST http://localhost:8081/commentFlags/add
 Content-Type: application/json 
@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 
-// COMMENTS TEST
+// COMMENTS TEST (JAIDON)
 ###
 POST http://localhost:8081/comments/create
 Content-Type: application/json
@@ -97,7 +97,7 @@ Content-Type: application/json
 GET http://localhost:8081/comments/12345
 
 
-//WATCHLIST TEST
+//WATCHLIST TEST (MARCOS)
 //test for adding item to watchlist
 ###
 POST http://localhost:8081/watchlist/add
@@ -105,7 +105,7 @@ Content-Type: application/json
 
 {
     "userId": "6973bab1469d1de7506b1016",
-    "imdbID": "tt30923123"
+    "imdbID": "tt30923121"
 }
 
 
@@ -113,5 +113,6 @@ Content-Type: application/json
 ###
 GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
 
+//test forgetting user watchlist of invalid user.
 ###
 GET http://localhost:8081/watchlist/6973bab1469d1de7506b1014
