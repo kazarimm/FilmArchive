@@ -13,7 +13,6 @@ import Signup from "./components/pages/registerPage";
 import PrivateUserProfile from "./components/pages/privateUserProfilePage";
 import { createContext, useState, useEffect } from "react";
 import getUserInfo from "./utilities/decodeJwt";
-import CommentsSection from "./components/commentSection";
 
 export const UserContext = createContext();
 //test change
@@ -35,7 +34,6 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route path="/privateUserProfile" element={<PrivateUserProfile />} />
-          <Route exact path="/comments" element={<CommentsSection />} />
         </Routes>
       </UserContext.Provider>
     </>
