@@ -69,50 +69,5 @@ POST  http://localhost:8081/user/deleteAll
 
 
 
-//COMMENTS FLAG TEST (KABANGA)
-###
-POST http://localhost:8081/commentFlags/add
-Content-Type: application/json 
-
-{
-    "commentId" : "635ab8dfc407faf9f73deaf2",
-    "reviewStatus" : "pending"
-}
 
 
-// COMMENTS TEST (JAIDON)
-###
-POST http://localhost:8081/comments/create
-Content-Type: application/json
-
-{
-"content": "This is a test comment.", 
-"username": "JaidonTaing", 
-"filmId": "12345", 
-"userId": "someUserId"
-}
-
-###
-
-GET http://localhost:8081/comments/12345
-
-
-//WATCHLIST TEST (MARCOS)
-//test for adding item to watchlist
-###
-POST http://localhost:8081/watchlist/add
-Content-Type: application/json
-
-{
-    "userId": "6973bab1469d1de7506b1016",
-    "imdbID": "tt30923121"
-}
-
-
-//test for getting user watchlist
-###
-GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
-
-//test forgetting user watchlist of invalid user.
-###
-GET http://localhost:8081/watchlist/6973bab1469d1de7506b1014
