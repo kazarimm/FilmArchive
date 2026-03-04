@@ -92,3 +92,14 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8081/comments/12345
+
+###
+POST http://localhost:8081/watchlist/add
+Content-Type: application/json
+
+{
+    "userId": "6973bab1469d1de7506b1016",
+    "imdbID": "tt30923123"
+}
+###
+GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
