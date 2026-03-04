@@ -98,6 +98,7 @@ GET http://localhost:8081/comments/12345
 
 
 //WATCHLIST TEST
+//test for adding item to watchlist
 ###
 POST http://localhost:8081/watchlist/add
 Content-Type: application/json
@@ -106,5 +107,11 @@ Content-Type: application/json
     "userId": "6973bab1469d1de7506b1016",
     "imdbID": "tt30923123"
 }
+
+
+//test for getting user watchlist
 ###
 GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
+
+###
+GET http://localhost:8081/watchlist/6973bab1469d1de7506b1014
