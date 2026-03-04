@@ -11,6 +11,8 @@ const deleteUser = require('./routes/userDeleteAll')
 const addCommentFlag = require('./routes/commentFlags/postCommentFlag')
 const addWatchlistItem = require('./routes/watchlist/addWatchlist')
 const fetchWatchlistItem = require('./routes/watchlist/fetchWatchlist')
+const addCommentRoutes = require('./routes/commentRoute/addComment');
+const fetchCommentRoutes = require('./routes/commentRoute/fetchComment');
 require('dotenv').config();
 const SERVER_PORT = 8081
 
@@ -27,6 +29,9 @@ app.use('/user', deleteUser)
 app.use('/commentFlags', addCommentFlag)
 app.use('/watchlist', addWatchlistItem)
 app.use('/watchlist', fetchWatchlistItem)
+app.use('/comments', fetchCommentRoutes);
+app.use('/comments', addCommentRoutes);
+app.use
 app.listen(SERVER_PORT, (req, res) => {
 console.log(`The backend service is running on port ${SERVER_PORT} and waiting for requests.`);
 })
