@@ -67,6 +67,9 @@ GET http://localhost:8081/comments/12345
 
 POST  http://localhost:8081/user/deleteAll
 
+
+
+//COMMENTS FLAG TEST
 ###
 POST http://localhost:8081/commentFlags/add
 Content-Type: application/json 
@@ -77,8 +80,8 @@ Content-Type: application/json
 }
 
 
+// COMMENTS TEST
 ###
-
 POST http://localhost:8081/comments/create
 Content-Type: application/json
 
@@ -93,6 +96,8 @@ Content-Type: application/json
 
 GET http://localhost:8081/comments/12345
 
+
+//WATCHLIST TEST
 ###
 POST http://localhost:8081/watchlist/add
 Content-Type: application/json
