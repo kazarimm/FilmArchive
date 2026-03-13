@@ -14,6 +14,8 @@ const addWatchlistItem = require('./routes/watchlist/addWatchlist')
 const fetchWatchlistItem = require('./routes/watchlist/fetchWatchlist')
 const addCommentRoutes = require('./routes/commentRoute/addComment');
 const fetchCommentRoutes = require('./routes/commentRoute/fetchComment');
+const fetchCommentById = require('./routes/commentRoute/fetchCommentByCommentId');
+
 require('dotenv').config();
 const SERVER_PORT = 8081
 
@@ -32,6 +34,8 @@ app.use('/commentFlags', getAllCommentFlags)
 app.use('/watchlist', addWatchlistItem)
 app.use('/watchlist', fetchWatchlistItem)
 app.use('/comments', fetchCommentRoutes);
+app.use('/comments', fetchCommentById);
+
 app.use('/comments', addCommentRoutes);
 app.use
 app.listen(SERVER_PORT, (req, res) => {
