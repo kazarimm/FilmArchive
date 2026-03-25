@@ -114,6 +114,15 @@
     word-wrap: break-word;
 }
 
+.comment-background {
+  background-image: url('./images/Raising_Canes.png'); /* Use the relative or absolute URL */
+  background-size: cover; /* Adjusts the image to cover the entire element */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-position: center; /* Centers the image within the element */
+  height: 1000px; /* Must define a height for the background to be visible */
+  width: 100%; /* Optional, define width if needed */
+}
+
 /* Comment Footer with Voting */
 .comment-footer {
     display: flex;
