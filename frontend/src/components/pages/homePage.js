@@ -4,7 +4,9 @@ import getUserInfo from '../../utilities/decodeJwt';
 
 const HomePage = () => {
     const [user, setUser] = useState({});
+   
     const navigate = useNavigate();
+   
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -15,6 +17,8 @@ const HomePage = () => {
     useEffect(() => {
         setUser(getUserInfo());
     }, []);
+
+    
 
     if (!user) return (
         <div><h4>Log in to view this page.</h4></div>
@@ -41,8 +45,11 @@ const HomePage = () => {
             <button onClick={(e) => handleClick(e)}>
                 Log Out
             </button>
-        </>
+   </>
     );
 };
+    
+    
+
 
 export default HomePage;
