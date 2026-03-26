@@ -1,27 +1,69 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { UserContext } from "../../App"; // get logged-in user
+import { UserContext } from "../../App"; 
+import { useLocation } from "react-router-dom";
+import "../../css/movielistdetail.css";
+
+// Default movies to show on the Films tab
+const defaultMovies = [
+  {
+    Title: "Inception",
+    Year: "2010",
+    imdbID: "tt1375666",
+    Poster: "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg"
+  },
+  {
+    Title: "The Matrix",
+    Year: "1999",
+    imdbID: "tt0133093",
+    Poster: "https://m.media-amazon.com/images/I/51EG732BV3L.jpg"
+  },
+  {
+    Title: "Interstellar",
+    Year: "2014",
+    imdbID: "tt0816692",
+    Poster: "https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg"
+  },
+  {
+    Title: "The Dark Knight",
+    Year: "2008",
+    imdbID: "tt0468569",
+    Poster: "https://m.media-amazon.com/images/I/51k0qaB+0aL._AC_.jpg"
+  },
+  {
+    Title: "Pulp Fiction",
+    Year: "1994",
+    imdbID: "tt0110912",
+    Poster: "https://m.media-amazon.com/images/I/71c05lTE03L._AC_SY679_.jpg"
+  }
+];
 
 const MovieListDetail = () => {
-  const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(defaultMovies); // <-- use default movies
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const API_KEY = "746c44f7";
 
-  const user = useContext(UserContext); // get current user
+  const user = useContext(UserContext);
+  const location = useLocation();
 
-  // Search movies
+  // Get search query from URL
+  const query = new URLSearchParams(location.search).get("search") || "";
+
+  useEffect(() => {
+    if (query) searchMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
+
   const searchMovies = async () => {
     if (!query) return;
     const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`);
     const data = await res.json();
     setMovies(data.Search || []);
-    setSelectedMovie(null); // reset detail view
+    setSelectedMovie(null);
   };
 
-  // Fetch movie detail
   const fetchMovieDetail = async (imdbID) => {
     const res = await fetch(`https://www.omdbapi.com/?i=${imdbID}&apikey=${API_KEY}`);
     const data = await res.json();
@@ -29,7 +71,6 @@ const MovieListDetail = () => {
     loadComments(imdbID);
   };
 
-  // Load comments for a movie
   const loadComments = async (imdbID) => {
     try {
       const res = await axios.get(`/api/comments/${imdbID}`);
@@ -39,7 +80,6 @@ const MovieListDetail = () => {
     }
   };
 
-  // Post a comment
   const postComment = async () => {
     if (!newComment || !user) return;
     try {
@@ -57,19 +97,6 @@ const MovieListDetail = () => {
 
   return (
     <div className="container mt-4 text-center">
-      {/* Search Box */}
-      <h2>Search Films</h2>
-      <input
-        className="form-control"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Type a film title..."
-      />
-      <button className="btn btn-primary mt-2" onClick={searchMovies}>
-        Search
-      </button>
-
-      {/* Movie List */}
       {!selectedMovie && movies.length > 0 && (
         <div className="row mt-4">
           {movies.map((movie) => (
@@ -95,7 +122,6 @@ const MovieListDetail = () => {
         </div>
       )}
 
-      {/* Movie Detail */}
       {selectedMovie && (
         <div className="mt-4 text-left">
           <button className="btn btn-secondary mb-3" onClick={() => setSelectedMovie(null)}>
@@ -108,7 +134,6 @@ const MovieListDetail = () => {
           <p><strong>Director:</strong> {selectedMovie.Director}</p>
           <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
 
-          {/* Comments Section */}
           <div className="mt-4">
             <h4>Comments</h4>
             {comments.map((c) => (
