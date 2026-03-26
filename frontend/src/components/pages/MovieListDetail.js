@@ -58,12 +58,12 @@ const MovieListDetail = () => {
   return (
     <div className="container mt-4 text-center">
       {/* Search Box */}
-      <h2>Search Movies</h2>
+      <h2>Search Films</h2>
       <input
         className="form-control"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Type a movie title..."
+        placeholder="Type a film title..."
       />
       <button className="btn btn-primary mt-2" onClick={searchMovies}>
         Search
