@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utilities/decodeJwt';
+import "../../css/homepage.css";
 
 const HomePage = () => {
     const [user, setUser] = useState({});
@@ -26,8 +27,14 @@ const HomePage = () => {
 
     const { id, email, username } = user;
 
-    return (
-        <>
+     return (
+        
+        <div className="profile-page">
+            <div className="profile-header">
+                <h1>My Profile</h1>
+                <p className="subtitle">Welcome to your dashboard</p>
+            </div>
+
             <div className="card-container">
                 <div className="card">
                     <h3>Welcome</h3>
@@ -42,12 +49,16 @@ const HomePage = () => {
                     <p className="email">{email}</p>
                 </div>
             </div>
-            <button onClick={(e) => handleClick(e)}>
+
+            <button className="logout-btn" onClick={handleClick}>
                 Log Out
             </button>
-   </>
+        </div>
+   
     );
 };
+
+
     
     
 
