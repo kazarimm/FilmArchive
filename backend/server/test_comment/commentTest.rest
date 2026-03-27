@@ -1,0 +1,19 @@
+// COMMENTS TEST (JAIDON)
+###
+POST http://localhost:8081/comments/create
+Content-Type: application/json
+
+{
+"content": "This is a test comment.", 
+"username": "JaidonTaing", 
+"filmId": "12345", 
+"userId": "someUserId"
+}
+
+###
+
+GET http://localhost:8081/comments/12345
+
+###
+
+GET http://localhost:8081/comments/bycommentid/69a1d941b3d6ddcab5fb852c

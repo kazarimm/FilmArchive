@@ -3,9 +3,9 @@ const router = express.Router();
 const UserWatchList = require("../../models/userWatchlists");
 const { watch } = require("../../models/userModel");
 
-router.get("/", async (req, res) => {
+router.get("/:userId", async (req, res) => {
     try {
-        const { userId } = req.query;
+        const { userId } = req.params;
         if (!userId) {
             return res.status(400).json({ 
                 error: "userId is required" 

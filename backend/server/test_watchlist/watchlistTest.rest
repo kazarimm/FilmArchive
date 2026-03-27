@@ -1,0 +1,19 @@
+//WATCHLIST TEST (MARCOS)
+//test for adding item to watchlist
+###
+POST http://localhost:8081/watchlist/add
+Content-Type: application/json
+
+{
+    "userId": "6973bab1469d1de7506b1016",
+    "imdbID": "tt30923121"
+}
+
+
+//test for getting user watchlist
+###
+GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
+
+//test forgetting user watchlist of invalid user.
+###
+GET http://localhost:8081/watchlist/6973bab1469d1de7506b1014
