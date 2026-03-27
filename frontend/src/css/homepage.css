@@ -1,0 +1,119 @@
+.profile-page {
+    min-height: 100vh;
+    width: 100%;
+    background: radial-gradient(circle at top, #000000 0%, #0a0a0a 70%, #111111 100%);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    /* Background animation */
+    animation: bgPulse 20s ease-in-out infinite alternate;
+    background-size: 200% 200%;
+}
+
+
+@keyframes bgPulse {
+    0% {
+        background: radial-gradient(circle at top left, #000000 0%, #0a0a0a 70%, #111111 100%);
+    }
+    50% {
+        background: radial-gradient(circle at center, #000000 0%, #0c0c0c 70%, #111111 100%);
+    }
+    100% {
+        background: radial-gradient(circle at top right, #000000 0%, #0a0a0a 70%, #111111 100%);
+    }
+}
+
+
+.profile-page .profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-page .profile-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.profile-page .profile-header .subtitle {
+    font-size: 1.2rem;
+    color: #b3b3b3;
+}
+
+
+.profile-page .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.profile-page .card {
+    background: rgba(20, 20, 20, 0.95); 
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.6);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+}
+
+.profile-page .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 15px 35px rgba(229, 9, 20, 0.4);
+    border: 1px solid rgba(229, 9, 20, 0.6);
+}
+
+.profile-page .card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #e50914;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.profile-page .card p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #ffffff;
+    word-break: break-word;
+}
+
+
+.profile-page .logout-btn {
+    background: #e50914;
+    color: white;
+    font-size: 1.1rem;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.profile-page .logout-btn:hover {
+    background: #ff0f1f;
+    transform: scale(1.05);
+}
+
+.profile-page .logout-btn:active {
+    transform: scale(0.97);
+}
+
+
+.profile-page .username,
+.profile-page .userId,
+.profile-page .email {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: white;
+    margin-top: 8px;
+    word-break: break-word;
+}
