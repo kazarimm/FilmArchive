@@ -42,10 +42,7 @@ const [user, setUser] = useState({})
         <Nav.Link href="/home">Home</Nav.Link>
         <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
         <Nav.Link href="/comments">Comments</Nav.Link>
-<<<<<<< HEAD
-=======
         <Nav.Link href="/movies">Films</Nav.Link>
->>>>>>> 9e0221b24e21797dcf013020c6c42ddd4e72117a
       </Nav>
 
        <Form className="d-flex" onSubmit={handleSearch}>
