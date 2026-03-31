@@ -1,4 +1,4 @@
-/* Background layer: only poster is blurred */
+/* Blurred Background Poster */
 .movie-detail-bg {
   position: fixed;
   top: 0;
@@ -7,17 +7,17 @@
   height: 100%;
   background-size: cover;
   background-position: center;
-  filter: blur(15px);
+  filter: blur(15px); /* cinematic blur */
   z-index: 0;
 }
 
-/* Overlay layer: movie info and comments, not blurred */
+/* Foreground overlay with dark layer */
 .movie-detail-overlay {
-  position: relative; /* on top of background */
+  position: relative;
   z-index: 1;
   min-height: 100vh;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0,0,0,0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,7 +25,11 @@
   overflow-y: auto;
 }
 
-/* Movie Info: front poster and text */
+
+
+
+/* Movie info: front poster and text */
+
 .movie-info {
   display: flex;
   flex-direction: column;
@@ -39,7 +43,6 @@
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.7);
   margin-bottom: 1rem;
-  z-index: 2;
   transition: transform 0.3s ease;
 }
 
@@ -52,7 +55,7 @@
   text-align: center;
 }
 
-/* Comments Section */
+/* Comments section */
 .comments-section {
   width: 100%;
   max-width: 800px;
@@ -61,23 +64,5 @@
   border-radius: 10px;
   color: #fff;
   box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-  overflow-x: hidden;
 }
 
-/* Individual Comments */
-.comment {
-  border-left: 2px solid #555;
-  padding-left: 10px;
-  margin-bottom: 10px;
-}
-
-/* Reply Box */
-.reply-box input {
-  background-color: #222;
-  color: #fff;
-  border: 1px solid #555;
-}
-
-.reply-box button {
-  margin-top: 4px;
-}
