@@ -15,6 +15,7 @@ import { createContext, useState, useEffect } from "react";
 import getUserInfo from "./utilities/decodeJwt";
 import CommentsSection from "./components/commentSection";
 import MovieListDetail from "./components/pages/MovieListDetail";
+import WatchListPage from "./components/pages/watchlistPage";
 
 export const UserContext = createContext();
 //test change
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/privateUserProfile" element={<PrivateUserProfile />} />
           <Route exact path="/comments" element={<CommentsSection />} />
           <Route exact path="/movies" element={<MovieListDetail />} />
+          <Route exact path="/watchlist" element={<WatchListPage />} />
         </Routes>
       </UserContext.Provider>
     </>

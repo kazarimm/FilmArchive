@@ -43,6 +43,7 @@ const [user, setUser] = useState({})
         <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
         <Nav.Link href="/comments">Comments</Nav.Link>
         <Nav.Link href="/movies">Films</Nav.Link>
+        <Nav.Link href="/watchlist">Watchlist</Nav.Link>
       </Nav>
 
        <Form className="d-flex" onSubmit={handleSearch}>
