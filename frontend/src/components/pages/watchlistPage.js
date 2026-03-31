@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import getUserInfo from '../../utilities/decodeJwt';
+import WatchlistCard from "./watchlistCard.js";
+
+
 
 const WatchListPage = () => {
 
@@ -29,6 +32,8 @@ const WatchListPage = () => {
         setFilms(data.films)
         console.log("Watchlist Data:", data);
         console.log("Films in Watchlist:", data.films);
+
+
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
@@ -38,7 +43,17 @@ const WatchListPage = () => {
 
     fetchData();
   }, []);
-  return <div>Your Watchlist</div>;
+  return (
+  <div>
+    <h1>Your Watchlist</h1>
+
+    <div className="container">
+      {films.map((film) => (
+        <WatchlistCard key={film._id} film={film} />
+      ))}
+    </div>
+  </div>
+);
 };
 
 export default WatchListPage;
