@@ -8,9 +8,9 @@ import getUserInfo from '../../utilities/decodeJwt';
 // Default movies to show on the Films tab
 const defaultMovies = [
   {
-    Title: "Inception",
-    Year: "2010",
-    imdbID: "tt1375666",
+    Title: "Fight Club",
+    Year: "1999",
+    imdbID: "tt0137523",
     Poster: "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg"
   },
   {
