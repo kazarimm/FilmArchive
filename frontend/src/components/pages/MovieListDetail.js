@@ -3,6 +3,7 @@ import axios from "axios";
 import { UserContext } from "../../App"; 
 import { useLocation } from "react-router-dom";
 import "../../css/movielistdetail.css";
+import getUserInfo from '../../utilities/decodeJwt';
 
 // Default movies to show on the Films tab
 const defaultMovies = [
@@ -82,6 +83,42 @@ const MovieListDetail = () => {
       console.error(err);
     }
   };
+
+
+
+
+
+  /// FUNCTION THAT ADDS A MOVIE TO THE WATCHLIST
+  async function addToWatchlist(imdbID) {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+        const user = getUserInfo(accessToken);
+        console.log("User Info:", user);
+        const userId = user.id;
+        console.log("User ID:", userId);
+
+    const response = await fetch(`http://localhost:8081/watchlist/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        imdbID: imdbID,
+        watchedStatus: false
+      }),
+    });
+
+    const data1 = await response.json();
+    console.log("Added to watchlist:", data1);
+
+  } catch (error) {
+    console.error("Error adding to watchlist:", error);
+  }
+}
+
+
+
 
   const postComment = async () => {
     if (!newComment || !user) return;
@@ -197,6 +234,16 @@ const MovieListDetail = () => {
         >
           Back to Results
         </button>
+
+
+        <div className="mt-2">
+          <button onClick={() => addToWatchlist(selectedMovie.imdbID)}>
+            Add to Watchlist
+          </button>
+        </div>
+
+
+
 
         <h1>{selectedMovie.Title}</h1>
 
