@@ -29,7 +29,7 @@ const WatchListPage = () => {
         });
 
         const data = await response.json();
-        setFilms(data.films)
+        setFilms(data.films || [])
         console.log("Watchlist Data:", data);
         console.log("Films in Watchlist:", data.films);
 
