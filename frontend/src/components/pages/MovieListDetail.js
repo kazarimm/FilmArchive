@@ -43,7 +43,7 @@ const MovieListDetail = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const API_KEY = "746c44f7";
+  const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
   const user = useContext(UserContext);
   const location = useLocation();

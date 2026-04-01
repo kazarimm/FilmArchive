@@ -49,7 +49,7 @@ const WatchListPage = () => {
 
     <div className="container">
       {films.map((film) => (
-        <WatchlistCard key={film._id} film={film} />
+        <WatchlistCard key={film._id} film={film} watchedStatus={film.watchedStatus} />
       ))}
     </div>
   </div>
