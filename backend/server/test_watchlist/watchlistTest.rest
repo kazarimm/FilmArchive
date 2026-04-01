@@ -17,3 +17,37 @@ GET http://localhost:8081/watchlist/6973bab1469d1de7506b1016
 //test forgetting user watchlist of invalid user.
 ###
 GET http://localhost:8081/watchlist/6973bab1469d1de7506b1014
+
+
+//adding another movie to watchlist to see how it handles multiple movies/cards
+###
+POST http://localhost:8081/watchlist/add
+Content-Type: application/json
+
+{
+    "userId": "69ca857668ae9c7eaae64540",
+    "imdbID": "tt12345678"
+}
+
+### 
+//Test for passing in a value as true, testing watchedStatus functionality, as well as adding invalid film.
+POST http://localhost:8081/watchlist/add
+Content-Type: application/json
+
+{
+    "userId": "69ca857668ae9c7eaae64540",
+    "imdbID": "tt39329941",
+    "watchedStatus": true
+}
+###
+GET http://localhost:8081/watchlist/69ca857668ae9c7eaae64540
+###
+//Adding valid film to watchlist with true status.
+POST http://localhost:8081/watchlist/add
+Content-Type: application/json
+
+{
+    "userId": "69ca857668ae9c7eaae64540",
+    "imdbID": "tt8814476",
+    "watchedStatus": true
+}

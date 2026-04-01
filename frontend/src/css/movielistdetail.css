@@ -1,4 +1,12 @@
-/* Blurred Background Poster */
+/* PAGE WRAPPER */
+.movie-detail-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Blurred background poster */
 .movie-detail-bg {
   position: fixed;
   top: 0;
@@ -7,42 +15,47 @@
   height: 100%;
   background-size: cover;
   background-position: center;
-  filter: blur(15px); /* cinematic blur */
-  z-index: 0;
+  filter: blur(20px);
+  transform: scale(1.1); /* prevents blur edges */
+  z-index: -2;
 }
 
-/* Foreground overlay with dark layer */
+/* Dark overlay layer */
+.movie-detail-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: -1;
+}
+
+/* Foreground overlay */
 .movie-detail-overlay {
   position: relative;
-  z-index: 1;
-  min-height: 100vh;
+  z-index: 2;
   width: 100%;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-height: 100vh;
   padding: 2rem;
+  display: flex;
+  justify-content: center;
   overflow-y: auto;
 }
 
-
-
-
-/* Movie info: front poster and text */
-
+/* Movie info content */
 .movie-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #fff;
-  margin-bottom: 2rem;
+  max-width: 900px;
+  width: 100%;
+  color: white;
+  text-align: center;
 }
 
+/* Front poster */
 .front-poster {
   max-width: 300px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-  margin-bottom: 1rem;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  margin: 1rem 0;
   transition: transform 0.3s ease;
 }
 
@@ -50,19 +63,37 @@
   transform: scale(1.05);
 }
 
-.movie-text {
-  max-width: 700px;
-  text-align: center;
-}
-
 /* Comments section */
 .comments-section {
   width: 100%;
-  max-width: 800px;
-  background-color: rgba(0, 0, 0, 0.85);
-  padding: 1rem;
-  border-radius: 10px;
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+  margin-top: 2rem;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
 }
 
+/* Individual comment */
+.comment-box {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* Replies indented */
+.comment-reply {
+  margin-left: 30px;
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+  padding-left: 15px;
+}
+.add-watchlist-btn {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 1px;
+  width: 200px;
+  background-color: red;
+  margin-left: 210px;
+}

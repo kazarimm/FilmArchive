@@ -3,13 +3,14 @@ import axios from "axios";
 import { UserContext } from "../../App"; 
 import { useLocation } from "react-router-dom";
 import "../../css/movielistdetail.css";
+import getUserInfo from '../../utilities/decodeJwt';
 
 // Default movies to show on the Films tab
 const defaultMovies = [
   {
-    Title: "Inception",
-    Year: "2010",
-    imdbID: "tt1375666",
+    Title: "Fight Club",
+    Year: "1999",
+    imdbID: "tt0137523",
     Poster: "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg"
   },
   {
@@ -43,7 +44,7 @@ const MovieListDetail = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const API_KEY = "746c44f7";
+  const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
   const user = useContext(UserContext);
   const location = useLocation();
@@ -82,6 +83,42 @@ const MovieListDetail = () => {
       console.error(err);
     }
   };
+
+
+
+
+
+  /// FUNCTION THAT ADDS A MOVIE TO THE WATCHLIST
+  async function addToWatchlist(imdbID) {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+        const user = getUserInfo(accessToken);
+        console.log("User Info:", user);
+        const userId = user.id;
+        console.log("User ID:", userId);
+
+    const response = await fetch(`http://localhost:8081/watchlist/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        imdbID: imdbID,
+        watchedStatus: false
+      }),
+    });
+
+    const data1 = await response.json();
+    console.log("Added to watchlist:", data1);
+
+  } catch (error) {
+    console.error("Error adding to watchlist:", error);
+  }
+}
+
+
+
 
   const postComment = async () => {
     if (!newComment || !user) return;
@@ -181,56 +218,73 @@ const MovieListDetail = () => {
       )}
 
       {selectedMovie && (
-        <>
-          {/* Blurred background poster */}
-          <div
-            className="movie-detail-bg"
-            style={{ backgroundImage: `url(${selectedMovie.Poster})` }}
-          />
+  <div className="movie-detail-page">
+    {/* Blurred background poster */}
+    <div
+      className="movie-detail-bg"
+      style={{ backgroundImage: `url(${selectedMovie.Poster})` }}
+    />
 
-          {/* Foreground overlay */}
-          <div className="movie-detail-overlay">
-            <div className="movie-info text-center">
-              <button
-                className="btn btn-secondary mb-3"
-                onClick={() => setSelectedMovie(null)}
-              >
-                Back to Results
+    {/* Foreground overlay */}
+    <div className="movie-detail-overlay">
+      <div className="movie-info">
+        <button
+          className="btn btn-secondary mb-3"
+          onClick={() => setSelectedMovie(null)}
+        >
+          Back to Results
+        </button>
+
+
+        <div className="add-watchlist-btn">
+          <button onClick={() => addToWatchlist(selectedMovie.imdbID)}>
+            Add to Watchlist
+          </button>
+        </div>
+
+
+
+
+        <h1>{selectedMovie.Title}</h1>
+
+        <img
+          src={selectedMovie.Poster}
+          alt={selectedMovie.Title}
+          className="front-poster"
+        />
+
+        <p><strong>Year:</strong> {selectedMovie.Year}</p>
+        <p><strong>Genre:</strong> {selectedMovie.Genre}</p>
+        <p><strong>Director:</strong> {selectedMovie.Director}</p>
+        <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
+
+        <div className="comments-section">
+          <h4>Comments</h4>
+
+          {comments.map((c) => renderComment(c))}
+
+          {user ? (
+            <>
+              <input
+                type="text"
+                className="form-control mt-3"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Write a comment..."
+              />
+              <button className="btn btn-primary mt-2" onClick={postComment}>
+                Post
               </button>
-              <h1>{selectedMovie.Title}</h1>
-              <img src={selectedMovie.Poster} alt={selectedMovie.Title} className="front-poster" />
-              <p><strong>Year:</strong> {selectedMovie.Year}</p>
-              <p><strong>Genre:</strong> {selectedMovie.Genre}</p>
-              <p><strong>Director:</strong> {selectedMovie.Director}</p>
-              <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
+            </>
+          ) : (
+            <p>Log in to post comments.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
 
-              <div className="comments-section mt-4 text-left">
-                <h4>Comments</h4>
-
-                {/* Threaded comments */}
-                {comments.map((c) => renderComment(c))}
-
-                {/* Add new top-level comment */}
-                {user ? (
-                  <>
-                    <input
-                      type="text"
-                      className="form-control mt-3"
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      placeholder="Write a comment..."
-                    />
-                    <button className="btn btn-primary mt-2 mb-4" onClick={postComment}>
-                      Post
-                    </button>
-                  </>
-                ) : (
-                  <p>Log in to post comments.</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </>
+        
       )}
     </div>
   );

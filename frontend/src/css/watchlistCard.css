@@ -1,0 +1,49 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 10px;
+  width: 220px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 0px;
+}
+
+.card p {
+  margin: 5px 0;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.status-badge {
+  position: absolute;
+  bottom: -10px;
+
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+}
+.status-badge.watched {
+  background-color: #28a745;
+}
+
+.status-badge.not-watched {
+  background-color: #dc3545;
+}
