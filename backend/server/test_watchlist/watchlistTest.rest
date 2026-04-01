@@ -42,7 +42,7 @@ Content-Type: application/json
 ###
 GET http://localhost:8081/watchlist/69ca857668ae9c7eaae64540
 ###
-//Adding valid film to watchlist.
+//Adding valid film to watchlist with true status.
 POST http://localhost:8081/watchlist/add
 Content-Type: application/json
 
