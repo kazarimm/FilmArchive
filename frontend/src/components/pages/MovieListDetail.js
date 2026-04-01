@@ -236,7 +236,7 @@ const MovieListDetail = () => {
         </button>
 
 
-        <div className="mt-2">
+        <div className="add-watchlist-btn">
           <button onClick={() => addToWatchlist(selectedMovie.imdbID)}>
             Add to Watchlist
           </button>
