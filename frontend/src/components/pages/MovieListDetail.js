@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import { UserContext } from "../../App"; 
 import { useLocation } from "react-router-dom";
@@ -39,7 +39,7 @@ const defaultMovies = [
 ];
 
 const MovieListDetail = () => {
-  const [movies, setMovies] = useState(defaultMovies); // <-- use default movies
+  const [movies, setMovies] = useState(defaultMovies);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -48,21 +48,24 @@ const MovieListDetail = () => {
   const user = useContext(UserContext);
   const location = useLocation();
 
-  // Get search query from URL
   const query = new URLSearchParams(location.search).get("search") || "";
+
+  // Memoized search function
+  const searchMovies = useCallback(async () => {
+    if (!query) return;
+    try {
+      const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`);
+      const data = await res.json();
+      setMovies(data.Search || []);
+      setSelectedMovie(null);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [query, API_KEY]);
 
   useEffect(() => {
     if (query) searchMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
-
-  const searchMovies = async () => {
-    if (!query) return;
-    const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`);
-    const data = await res.json();
-    setMovies(data.Search || []);
-    setSelectedMovie(null);
-  };
+  }, [query, searchMovies]);
 
   const fetchMovieDetail = async (imdbID) => {
     const res = await fetch(`https://www.omdbapi.com/?i=${imdbID}&apikey=${API_KEY}`);
@@ -95,6 +98,61 @@ const MovieListDetail = () => {
     }
   };
 
+  // Component to post a reply to a comment
+  const ReplyInput = ({ parentId }) => {
+    const [replyText, setReplyText] = useState("");
+
+    const handlePostReply = async () => {
+      if (!replyText) return;
+      try {
+        await axios.post("/api/comments", {
+          imdbID: selectedMovie.imdbID,
+          username: user.username,
+          text: replyText,
+          parentId: parentId, // links the reply to the parent comment
+        });
+        setReplyText("");
+        loadComments(selectedMovie.imdbID); // refresh comments
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    return (
+      <div className="mt-2">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Reply..."
+          value={replyText}
+          onChange={(e) => setReplyText(e.target.value)}
+        />
+        <button className="btn btn-sm btn-primary mt-1" onClick={handlePostReply}>
+          Reply
+        </button>
+      </div>
+    );
+  };
+
+  // Recursive function to render comments and their replies
+  const renderComment = (comment) => {
+    return (
+      <div key={comment._id} className={`comment-box ${comment.parentId ? "comment-reply" : ""}`}>
+        <strong>{comment.username}:</strong> {comment.text}
+
+        {/* Reply input */}
+        {user && <ReplyInput parentId={comment._id} />}
+
+        {/* Render replies recursively */}
+        {comment.replies && comment.replies.length > 0 && (
+          <div className="mt-2">
+            {comment.replies.map((reply) => renderComment(reply))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="container mt-4 text-center">
       {!selectedMovie && movies.length > 0 && (
@@ -123,42 +181,63 @@ const MovieListDetail = () => {
       )}
 
       {selectedMovie && (
-        <div className="mt-4 text-left">
-          <button className="btn btn-secondary mb-3" onClick={() => setSelectedMovie(null)}>
-            Back to Results
-          </button>
-          <h1>{selectedMovie.Title}</h1>
-          <img src={selectedMovie.Poster} alt={selectedMovie.Title} />
-          <p><strong>Year:</strong> {selectedMovie.Year}</p>
-          <p><strong>Genre:</strong> {selectedMovie.Genre}</p>
-          <p><strong>Director:</strong> {selectedMovie.Director}</p>
-          <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
+  <div className="movie-detail-page">
+    {/* Blurred background poster */}
+    <div
+      className="movie-detail-bg"
+      style={{ backgroundImage: `url(${selectedMovie.Poster})` }}
+    />
 
-          <div className="mt-4">
-            <h4>Comments</h4>
-            {comments.map((c) => (
-              <div key={c._id} className="border p-2 mb-2">
-                <strong>{c.username}:</strong> {c.text}
-              </div>
-            ))}
-            {user ? (
-              <>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Write a comment..."
-                />
-                <button className="btn btn-primary mt-2" onClick={postComment}>
-                  Post
-                </button>
-              </>
-            ) : (
-              <p>Log in to post comments.</p>
-            )}
-          </div>
+    {/* Foreground overlay */}
+    <div className="movie-detail-overlay">
+      <div className="movie-info">
+        <button
+          className="btn btn-secondary mb-3"
+          onClick={() => setSelectedMovie(null)}
+        >
+          Back to Results
+        </button>
+
+        <h1>{selectedMovie.Title}</h1>
+
+        <img
+          src={selectedMovie.Poster}
+          alt={selectedMovie.Title}
+          className="front-poster"
+        />
+
+        <p><strong>Year:</strong> {selectedMovie.Year}</p>
+        <p><strong>Genre:</strong> {selectedMovie.Genre}</p>
+        <p><strong>Director:</strong> {selectedMovie.Director}</p>
+        <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
+
+        <div className="comments-section">
+          <h4>Comments</h4>
+
+          {comments.map((c) => renderComment(c))}
+
+          {user ? (
+            <>
+              <input
+                type="text"
+                className="form-control mt-3"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Write a comment..."
+              />
+              <button className="btn btn-primary mt-2" onClick={postComment}>
+                Post
+              </button>
+            </>
+          ) : (
+            <p>Log in to post comments.</p>
+          )}
         </div>
+      </div>
+    </div>
+  </div>
+
+        
       )}
     </div>
   );
