@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Comment = require('../../models/comment');
+
 router.post('/create', async (req, res) => {
   try {
     const newComment = new Comment(req.body);
@@ -16,8 +17,8 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/:filmId', async (req, res) => {
-  const comments = await Comment.find({ filmId: req.params.filmId });
+router.get('/:imdbID', async (req, res) => {
+  const comments = await Comment.find({ imdbIDId: req.params.imdbID });
   res.status(200).json(comments);
 });
 
