@@ -16,6 +16,7 @@ import getUserInfo from "./utilities/decodeJwt";
 import CommentsSection from "./components/commentSection";
 import MovieListDetail from "./components/pages/MovieListDetail";
 import WatchListPage from "./components/pages/watchlistPage";
+import MovieDetailPage from "./components/pages/MovieDetailPage";
 
 export const UserContext = createContext();
 //test change
@@ -40,6 +41,7 @@ const App = () => {
           <Route exact path="/comments" element={<CommentsSection />} />
           <Route exact path="/movies" element={<MovieListDetail />} />
           <Route exact path="/watchlist" element={<WatchListPage />} />
+         <Route path="/films/:imdbID" element={<MovieDetailPage />} />
         </Routes>
       </UserContext.Provider>
     </>

@@ -8,7 +8,7 @@ const CommentSchema = new mongoose.Schema({
         required: true
     },
 
-    filmId: {
+    imdbID: {
         type: String,   // <-- CHANGE to String for now (easier for testing)
         required: true
     },

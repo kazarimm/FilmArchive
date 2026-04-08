@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { UserContext } from '../App';
 import '../css/comments.css';
 
-const CommentsSection = ({ filmId }) => {
+const CommentsSection = ({ imdbID }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const CommentsSection = ({ filmId }) => {
     const fetchComments = useCallback(async () => {
     try {
         setLoading(true);
-        const response = await fetch(`http://localhost:8081/comments/${filmId}`);
+        const response = await fetch(`http://localhost:8081/comments/${imdbID}`);
         const data = await response.json();
         setComments(data);
     } catch (err) {
@@ -20,7 +20,7 @@ const CommentsSection = ({ filmId }) => {
     } finally {
         setLoading(false);
     }
-}, [filmId]);
+}, [imdbID]);
 
 useEffect(() => {
         fetchComments();
@@ -45,9 +45,9 @@ useEffect(() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     content: newComment,
-                    userId: user._id,
+                    userId: user.id,
                     username: user.username,
-                    filmId: filmId,
+                    filmId: imdbID,
                 }),
             });
 
@@ -73,7 +73,7 @@ useEffect(() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     commentId: commentId,
-                    userId: user._id,
+                    userId: user.id,
                     value: voteValue,
                 }),
             });

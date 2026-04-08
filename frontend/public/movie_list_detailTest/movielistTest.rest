@@ -1,0 +1,85 @@
+
+POST http://localhost:8081/comments/create
+Content-Type: application/json
+
+{
+  "content": "This is a top-level comment for Inception.",
+  "username": "tochiamanze",
+  "filmId": "tt1375666",
+  "userId": "testUser123",
+  "parentCommentId": null
+}
+
+###
+
+
+
+GET http://localhost:8081/comments/tt1375666
+Content-Type: application/json
+
+###
+
+
+
+POST http://localhost:8081/comments/create
+Content-Type: application/json
+
+{
+  "content": "This movie has an amazing plot.",
+  "username": "tochiamanze",
+  "filmId": "tt1375666",
+  "userId": "testUser123",
+  "parentCommentId": null
+}
+
+###
+
+
+
+GET http://localhost:8081/comments/tt1375666
+Content-Type: application/json
+
+###
+
+
+
+POST http://localhost:8081/comments/create
+Content-Type: application/json
+
+{
+  "content": "This is a reply to the first comment.",
+  "username": "tochiamanze",
+  "filmId": "tt1375666",
+  "userId": "testUser456",
+  "parentCommentId": "642f1e4b5d6c2b00123abcd1"
+}
+
+###
+
+
+GET http://localhost:8081/comments/tt1375666
+Content-Type: application/json
+
+###
+
+
+
+POST http://localhost:8081/comments/create
+Content-Type: application/json
+
+{
+  "content": "Interstellar is one of Nolan's best movies.",
+  "username": "tochiamanze",
+  "filmId": "tt0816692",
+  "userId": "testUser789",
+  "parentCommentId": null
+}
+
+###
+
+
+
+GET http://localhost:8081/comments/tt0816692
+Content-Type: application/json
+
+###
