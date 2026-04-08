@@ -17,6 +17,7 @@ import CommentsSection from "./components/commentSection";
 import MovieListDetail from "./components/pages/MovieListDetail";
 import WatchListPage from "./components/pages/watchlistPage";
 import MovieDetailPage from "./components/pages/MovieDetailPage";
+import CommentReviewPage from "./components/pages/commentReviewPage";
 
 export const UserContext = createContext();
 //test change
@@ -42,6 +43,7 @@ const App = () => {
           <Route exact path="/movies" element={<MovieListDetail />} />
           <Route exact path="/watchlist" element={<WatchListPage />} />
          <Route path="/films/:imdbID" element={<MovieDetailPage />} />
+         <Route exact path="/reviewComments" element={<CommentReviewPage />} />
         </Routes>
       </UserContext.Provider>
     </>
