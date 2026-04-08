@@ -16,9 +16,9 @@
 
 /* Movie row container */
 .films-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-  overflow-x: auto;
   padding-bottom: 15px;
   scroll-behavior: smooth;
 }
@@ -35,8 +35,7 @@
 
 /* Movie card */
 .film-card {
-  min-width: 180px;
-  max-width: 180px;
+  width: 100%;
   background: transparent;
   cursor: pointer;
   transition: transform 0.3s ease;

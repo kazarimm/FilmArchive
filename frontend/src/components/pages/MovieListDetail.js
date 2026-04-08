@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import { UserContext } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../css/filmsPage.css";
-import getUserInfo from "../../utilities/decodeJwt";
+
 
 // List of highly rated movies (IMDB IDs)
 const topMovieIDs = [
@@ -30,7 +30,7 @@ const topMovieIDs = [
 
 const MovieListDetail = () => {
   const [movies, setMovies] = useState([]);
-  const [watchlistMovies, setWatchlistMovies] = useState([]); // <-- ADDED
+  const [watchlistMovies,] = useState([]); // <-- ADDED
   const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
   // eslint-disable-next-line no-unused-vars
@@ -76,35 +76,7 @@ const MovieListDetail = () => {
     }
   }, [query, API_KEY]);
 
-  // Fetch watchlist movies (ADDED)
-  const fetchWatchlist = useCallback(async () => {
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) return;
-
-      const decodedUser = getUserInfo(accessToken);
-      const userId = decodedUser.id;
-
-      const res = await fetch(`http://localhost:8081/watchlist/${userId}`);
-      const data = await res.json();
-
-      if (!data.films) return;
-
-      const results = await Promise.all(
-        data.films.map(async (film) => {
-          const res = await fetch(
-            `https://www.omdbapi.com/?i=${film.imdbID}&apikey=${API_KEY}`
-          );
-          return res.json();
-        })
-      );
-
-      setWatchlistMovies(results);
-    } catch (err) {
-      console.error("Failed to load watchlist:", err);
-    }
-  }, [API_KEY]);
-
+ 
   // Reload movies every time Films tab is entered
   useEffect(() => {
     if (query) {
@@ -113,12 +85,12 @@ const MovieListDetail = () => {
       fetchRandomTopMovies();
     }
 
-    fetchWatchlist(); // <-- ADDED
+   
   }, [
     query,
     searchMovies,
     fetchRandomTopMovies,
-    fetchWatchlist,
+
     location.pathname,
   ]);
 
