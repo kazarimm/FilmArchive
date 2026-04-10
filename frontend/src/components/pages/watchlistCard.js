@@ -17,24 +17,21 @@ const WatchlistCard = ({ film, watchedStatus}) => {
       fetchMovieData();
     }, [film.imdbID, API_KEY]);
 
-    if (!movie) return <div className="card">Loading...</div>;
+    if (!movie) return <div className="front-poster">Loading...</div>;
   return (
-    <div className="card">
-        <img
-            src={movie.Poster !== "N/A" ? movie.Poster : ""}
-            alt={movie.Title}
-            className="card-img"
-        />
-        <h3>{movie.Title}</h3>
-        <p>{movie.Year}</p>
-        {movie && (
-        <span className={`status-badge ${watchedStatus ? "watched" : "not-watched"}`}>
-        {watchedStatus ? "Watched" : "Not Watched"}
-        
-        </span>
-)}
+  <div className="film-card">
+    <img
+      src={movie.Poster !== "N/A" ? movie.Poster : ""}
+      alt={movie.Title}
+      className="film-poster"
+    />
+
+    <div className="film-info">
+      <h5>{movie.Title}</h5>
+      <p>{movie.Year}</p>
     </div>
-  );
+  </div>
+);
 };
 
 export default WatchlistCard;

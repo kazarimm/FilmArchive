@@ -44,12 +44,16 @@ const WatchListPage = () => {
     fetchData();
   }, []);
   return (
-  <div>
-    <h1>Your Watchlist</h1>
+  <div className="films-page">
+    <h1 className="films-title">Your Watchlist</h1>
 
-    <div className="container">
+    <div className="films-row">
       {films.map((film) => (
-        <WatchlistCard key={film._id} film={film} watchedStatus={film.watchedStatus} />
+        <WatchlistCard
+          key={film._id}
+          film={film}
+          watchedStatus={film.watchedStatus}
+        />
       ))}
     </div>
   </div>
