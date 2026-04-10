@@ -1,28 +1,20 @@
-.card {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 16px;
-  margin: 10px;
-  width: 220px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  background-color: white;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
+.front-poster {
+  max-width: 300px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  margin: 2rem 0;
+  transition: transform 0.3s ease;
 }
 
-.card h3 {
-  font-size: 20px;
-  margin-bottom: 0px;
+.front-poster:hover {
+  transform: scale(1.05);
+}
+.card:hover{
+  transform: scale(1.05);
+
 }
 
-.card p {
-  margin: 5px 0;
-  position: relative;
-}
 
 .container {
   display: flex;
@@ -30,15 +22,9 @@
 
 }
 
-.status-badge {
-  position: absolute;
-  bottom: -10px;
-
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: white;
+.status-badge:hover {
+  transform: scale(1.05);
+  background-color: darkred;
 }
 .status-badge.watched {
   background-color: #28a745;
@@ -46,4 +32,107 @@
 
 .status-badge.not-watched {
   background-color: #dc3545;
+}
+
+/* Netflix-style Films Page */
+
+.films-page {
+  background-color: #0b0b0b;
+  min-height: 100vh;
+  padding: 40px 30px;
+  color: white;
+}
+
+.films-title {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+/* Movie row container */
+.films-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding-bottom: 15px;
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar (Chrome/Safari) */
+.films-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.films-row::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Movie card */
+.film-card {
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.film-card:hover {
+  transform: scale(1.12);
+  z-index: 5;
+}
+
+/* Movie poster */
+.film-poster {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.9);
+}
+
+/* Movie info appears on hover */
+.film-info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.film-card:hover .film-info {
+  opacity: 1;
+}
+
+.film-info h5 {
+  font-size: 14px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.film-info p {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .films-page {
+    padding: 25px 15px;
+  }
+
+  .film-card {
+    min-width: 140px;
+    max-width: 140px;
+  }
+
+  .film-poster {
+    height: 210px;
+  }
 }

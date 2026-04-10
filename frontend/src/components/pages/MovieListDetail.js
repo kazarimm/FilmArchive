@@ -134,6 +134,12 @@ const MovieListDetail = () => {
             <div
               className="film-card"
               key={movie.imdbID}
+
+
+              // MOVIE NAVIGATION TO INDIVIDUAL PAGE
+
+
+
               onClick={() => navigate(`/films/${movie.imdbID}`)}
             >
               <img
