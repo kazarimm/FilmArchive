@@ -1,0 +1,227 @@
+.profile-page {
+    min-height: 100vh;
+    background: #111111;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+  
+  .profile-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 40px;
+    background: linear-gradient(90deg, #1a0000, #5c0000, #1a0000);
+    border-bottom: 2px solid #2e2e2e;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  }
+  
+  .brand-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .brand-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ff2d55, #b30000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+  }
+  
+  .brand-text {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .topbar-logout-btn {
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .topbar-logout-btn:hover {
+    background: #b30000;
+    border-color: #b30000;
+  }
+  
+  .profile-wrapper {
+    padding: 40px 30px 60px;
+    max-width: 1350px;
+    margin: 0 auto;
+  }
+  
+  .profile-card {
+    background: #1c1c1c;
+    border: 1px solid #343434;
+    border-radius: 26px;
+    padding: 34px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    margin-bottom: 35px;
+  }
+  
+  .profile-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .profile-avatar {
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff2d55, #7a0000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  }
+  
+  .profile-info h1 {
+    margin: 0;
+    font-size: 52px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  
+  .profile-info p {
+    margin: 8px 0;
+    color: #d2d2d2;
+    font-size: 22px;
+  }
+  
+  .profile-info span {
+    color: #ff8a8a;
+    font-size: 18px;
+  }
+  
+  .profile-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  
+  .action-btn {
+    background: #141414;
+    border: 1px solid #4a4a4a;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .action-btn:hover {
+    background: #7a0000;
+    border-color: #7a0000;
+  }
+  
+  .bio-card {
+    background: #1c1c1c;
+    border: 1px solid #343434;
+    border-radius: 26px;
+    padding: 30px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  }
+  
+  .bio-card h2 {
+    font-size: 38px;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  
+  .bio-subtext {
+    color: #c5c5c5;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  
+  .bio-textarea {
+    width: 100%;
+    background: #111111;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 16px;
+    padding: 18px;
+    font-size: 17px;
+    resize: none;
+    outline: none;
+  }
+  
+  .bio-textarea:focus {
+    border-color: #ff2d55;
+    box-shadow: 0 0 0 2px rgba(255, 45, 85, 0.15);
+  }
+  
+  .bio-actions {
+    margin-top: 18px;
+  }
+  
+  .save-bio-btn {
+    background: linear-gradient(135deg, #ff2d55, #b30000);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .save-bio-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+  
+  .status-message {
+    margin-top: 14px;
+    color: #ffb3b3;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .login-warning {
+    text-align: center;
+    padding-top: 80px;
+    color: white;
+  }
+  
+  @media (max-width: 900px) {
+    .profile-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .profile-info h1 {
+      font-size: 36px;
+    }
+  
+    .profile-topbar {
+      padding: 18px 20px;
+    }
+  
+    .brand-text {
+      font-size: 24px;
+    }
+  }
