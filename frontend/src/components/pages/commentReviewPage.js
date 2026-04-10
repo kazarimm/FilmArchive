@@ -3,9 +3,7 @@ import axios from "axios";
 
 const CommentReviewPage = () => {
   const [flags, setFlags] = useState([]);
-  const [selectedFlag, setSelectedFlag] = useState(null);
 
-  // Fetch all flags
   useEffect(() => {
     fetchFlags();
   }, []);
@@ -19,45 +17,34 @@ const CommentReviewPage = () => {
     }
   };
 
-  // Get single flag by ID
-  const handleSelect = async (id) => {
-    try {
-      const res = await axios.get(`http://localhost:8081/commentFlags/getById/${id}`);
-      setSelectedFlag(res.data);
-    } catch (error) {
-      console.error("Error fetching flag:", error);
-    }
-  };
-
   return (
     <div style={{ padding: "20px" }}>
       <h2>Comment Review Page</h2>
 
-      {/* List of flags */}
       <h3>Flagged Comments</h3>
-      <ul>
-        {flags.map((flag) => (
-          <li key={flag._id}>
-            <strong>Comment ID:</strong> {flag.commentId} <br />
-            <strong>Reason:</strong> {flag.reason} <br />
-            <button onClick={() => handleSelect(flag._id)}>
-              View Details
-            </button>
-            <hr />
-          </li>
-        ))}
-      </ul>
 
-      {/* Selected flag details */}
-      {selectedFlag && (
-        <div>
-          <h3>Selected Flag Details</h3>
-          <p><strong>ID:</strong> {selectedFlag._id}</p>
-          <p><strong>Comment ID:</strong> {selectedFlag.commentId}</p>
-          <p><strong>Reason:</strong> {selectedFlag.reason}</p>
-          <p><strong>Status:</strong> {selectedFlag.reviewStatus}</p>
-        </div>
-      )}
+      {/* Card Container */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+        {flags.map((flag) => (
+          <div
+            key={flag._id}
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "10px",
+              padding: "15px",
+              width: "250px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              backgroundColor: "#fff"
+            }}
+          >
+            <p><strong>ID:</strong> {flag._id}</p>
+            <p><strong>Comment ID:</strong> {flag.commentId}</p>
+            <p><strong>Reason:</strong> {flag.reason}</p>
+            <p><strong>Status:</strong> {flag.reviewStatus}</p>
+            <p><strong>Created:</strong> {new Date(flag.createdAt).toLocaleString()}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
