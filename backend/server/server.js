@@ -15,7 +15,7 @@ const fetchWatchlistItem = require('./routes/watchlist/fetchWatchlist')
 const addCommentRoutes = require('./routes/commentRoute/addComment');
 const fetchCommentRoutes = require('./routes/commentRoute/fetchComment');
 const fetchCommentById = require('./routes/commentRoute/fetchCommentByCommentId');
-
+const updateBioRoute = require("./routes/userUpdateBio");
 require('dotenv').config();
 const SERVER_PORT = 8081
 
@@ -36,7 +36,7 @@ app.use('/watchlist', fetchWatchlistItem)
 app.use('/comments', addCommentRoutes);
 app.use('/comments', fetchCommentById);
 app.use('/comments', fetchCommentRoutes);
-
+app.use('/user', updateBioRoute)
 
 
 app.listen(SERVER_PORT, (req, res) => {

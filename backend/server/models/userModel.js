@@ -22,6 +22,10 @@ const newUserSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    bio: {
+      type: String,
+      default: ""
+    },
   },
   { collection: "users" }
 );
