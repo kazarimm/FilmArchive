@@ -2,24 +2,14 @@ const express = require('express');
 const router = express.Router();
 const Comment = require('../../models/comment');
 
-router.post('/create', async (req, res) => {
+
+router.get('/getAll', async (req, res) => {
   try {
-    const newComment = new Comment(req.body);
-    const savedComment = await newComment.save();
-
-    res.status(200).json({
-      success: true,
-      comment: savedComment
-    });
-
+    const comments = await Comment.find();
+    res.status(200).json(comments);
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
-});
-
-router.get('/:imdbID', async (req, res) => {
-  const comments = await Comment.find({ imdbIDId: req.params.imdbID });
-  res.status(200).json(comments);
 });
 
 module.exports = router;

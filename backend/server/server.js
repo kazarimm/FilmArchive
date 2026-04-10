@@ -13,6 +13,7 @@ const getAllCommentFlags = require('./routes/commentFlags/getCommentFlags')
 const addWatchlistItem = require('./routes/watchlist/addWatchlist')
 const fetchWatchlistItem = require('./routes/watchlist/fetchWatchlist')
 const addCommentRoutes = require('./routes/commentRoute/addComment');
+const allCommentsRoute = require('./routes/commentRoute/Comments');
 const fetchCommentRoutes = require('./routes/commentRoute/fetchComment');
 const fetchCommentById = require('./routes/commentRoute/fetchCommentByCommentId');
 const updateBioRoute = require("./routes/userUpdateBio");
@@ -36,6 +37,7 @@ app.use('/watchlist', fetchWatchlistItem)
 app.use('/comments', addCommentRoutes);
 app.use('/comments', fetchCommentById);
 app.use('/comments', fetchCommentRoutes);
+app.use('/comments-all', allCommentsRoute);
 app.use('/user', updateBioRoute)
 
 
