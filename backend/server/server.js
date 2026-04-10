@@ -1,3 +1,6 @@
+
+const updateProfileRoute = require("./routes/userUpdateProfile");
+const changePasswordRoute = require("./routes/userChangePassword");
 const express = require("express");
 const app = express();
 const cors = require('cors')
@@ -39,7 +42,8 @@ app.use('/comments', fetchCommentById);
 app.use('/comments', fetchCommentRoutes);
 app.use('/comments-all', allCommentsRoute);
 app.use('/user', updateBioRoute)
-
+app.use("/user", updateProfileRoute);
+app.use("/user", changePasswordRoute);
 
 app.listen(SERVER_PORT, (req, res) => {
 console.log(`The backend service is running on port ${SERVER_PORT} and waiting for requests.`);
