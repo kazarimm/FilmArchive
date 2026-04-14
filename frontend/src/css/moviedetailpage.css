@@ -235,3 +235,20 @@ input.form-control {
 .comment-content {
   color: rgb(0, 0, 0);
 }
+
+.back-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-top: 20px;
+  transition: 0.2s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+}
