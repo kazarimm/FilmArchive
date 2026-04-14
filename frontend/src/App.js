@@ -18,7 +18,8 @@ import MovieListDetail from "./components/pages/MovieListDetail";
 import WatchListPage from "./components/pages/watchlistPage";
 import MovieDetailPage from "./components/pages/MovieDetailPage";
 import CommentReviewPage from "./components/pages/commentReviewPage";
-
+import EditProfilePage from "./components/pages/EditProfilePage";
+import ChangePasswordPage from "./components/pages/ChangePasswordPage";
 export const UserContext = createContext();
 //test change
 //test again
@@ -44,6 +45,8 @@ const App = () => {
           <Route exact path="/watchlist" element={<WatchListPage />} />
          <Route path="/films/:imdbID" element={<MovieDetailPage />} />
          <Route exact path="/reviewComments" element={<CommentReviewPage />} />
+         <Route path="/edit-profile" element={<EditProfilePage />} />
+         <Route path="/change-password" element={<ChangePasswordPage />} />
         </Routes>
       </UserContext.Provider>
     </>

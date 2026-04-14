@@ -24,28 +24,45 @@ const PrivateUserProfile = () => {
   useEffect(() => {
     const decodedUser = getUserInfo();
     setUser(decodedUser);
-
-    if (decodedUser && decodedUser.bio) {
-      setBio(decodedUser.bio);
+  
+    if (decodedUser) {
+      axios
+        .get("http://localhost:8081/user/getAll")
+        .then((res) => {
+          const matchedUser = res.data.find(
+            (u) =>
+              u.username === decodedUser.username ||
+              u.email === decodedUser.email
+          );
+  
+          if (matchedUser) {
+            setUser(matchedUser);
+            setBio(matchedUser.bio || "");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }, []);
 
   const handleSaveBio = async () => {
-    try {
-      const userId = user.id || user._id || user.userId;
+  try {
+    const userId = user._id || user.id || user.userId;
 
-      const res = await axios.put(
-        `http://localhost:8081/user/updateBio/${userId}`,
-        { bio }
-      );
+    const res = await axios.put(
+      `http://localhost:8081/user/updateBio/${userId}`,
+      { bio }
+    );
 
-      setMessage("Bio updated successfully.");
-      console.log(res.data);
-    } catch (error) {
-      console.error(error);
-      setMessage("Failed to update bio.");
-    }
-  };
+    setUser(res.data);
+    setBio(res.data.bio || "");
+    setMessage("Bio updated successfully.");
+  } catch (error) {
+    console.error(error);
+    setMessage("Failed to update bio.");
+  }
+};
 
   if (!user) {
     return (
@@ -79,12 +96,18 @@ const PrivateUserProfile = () => {
               <h1>{user.username}</h1>
               <p>{user.email || "No email available"}</p>
               <span>Film Archive Member</span>
+              {bio && <p className="saved-bio-preview">{bio}</p>}
             </div>
           </div>
 
           <div className="profile-actions">
-            <button className="action-btn">Edit Profile</button>
-            <button className="action-btn">Change Password</button>
+          <button className="action-btn" onClick={() => navigate("/edit-profile")}>
+  Edit Profile
+</button>
+
+<button className="action-btn" onClick={() => navigate("/change-password")}>
+  Change Password
+</button>
           </div>
         </div>
 
