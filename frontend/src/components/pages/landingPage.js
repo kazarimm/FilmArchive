@@ -1,23 +1,46 @@
-import React from 'react'
-import Card from 'react-bootstrap/Card';
+import React, { useEffect, useState } from "react";
+import Card from "react-bootstrap/Card";
 
 const Landingpage = () => {
-    
-    return (
-        <div className="bg-blue-500 text-white p-5">
-            <Card style={{ width: '30rem' }} className="mx-2 my-2">
-                <Card.Body>
-                    <Card.Title>Professor Brockenbrough's User Skeleton App</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">A starting point for an application.</Card.Subtitle>
-                    <Card.Text>
-                        If you see this with a blue background and white text, Tailwind is working
-                    </Card.Text>
-                    <Card.Link href="/signup">Sign Up</Card.Link>
-                    <Card.Link href="/login">Login</Card.Link>
-                </Card.Body>
-            </Card>
-        </div>
-    )
-}
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDone(true);
+    }, 3000); // change this to match gif length
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="bg-black text-white min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        
+        {/* GIF / Final Frame */}
+        <img
+          src={done ? "/FA.png" : "/FALogo.GIF"}
+          alt="Animation"
+          className="w-500 h-auto"
+        />
+
+        {/* Card */}
+        <Card style={{ width: "30rem" }} className="mx-2 my-2">
+          <Card.Body>
+            <Card.Title>Professor Brockenbrough's User Skeleton App</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">
+              A starting point for an application.
+            </Card.Subtitle>
+            <Card.Text>
+              If you see this with a black background and white text, Tailwind is working
+            </Card.Text>
+            <Card.Link href="/signup">Sign Up</Card.Link>
+            <Card.Link href="/login">Login</Card.Link>
+          </Card.Body>
+        </Card>
+
+      </div>
+    </div>
+  );
+};
 
 export default Landingpage;
