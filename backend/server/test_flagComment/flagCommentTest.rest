@@ -4,7 +4,7 @@ POST http://localhost:8081/commentFlags/add
 Content-Type: application/json 
 
 {
-    "commentId" : "635ab8dfc407faf9f73deaf2",
+    "commentId" : "69a1d941b3d6ddcab5fb852c",
     "reviewStatus" : "pending"
 }
 
