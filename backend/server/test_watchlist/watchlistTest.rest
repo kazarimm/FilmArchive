@@ -51,3 +51,14 @@ Content-Type: application/json
     "imdbID": "tt8814476",
     "watchedStatus": true
 }
+###
+PATCH http://localhost:8081/watchlist/update
+Content-Type: application/json
+
+{
+    "userId": "69ca857668ae9c7eaae64540",
+    "imdbID": "tt8814476",
+    "watchedStatus": true
+}
+###
+DELETE http://localhost:8081/watchlist/remove/69ca857668ae9c7eaae64540/tt8814476
