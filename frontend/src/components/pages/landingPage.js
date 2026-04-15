@@ -19,7 +19,7 @@ const Landingpage = () => {
         {/* GIF / PNG */}
         <div className="w-[1000px]">
           <img
-            src={done ? "/FALogo.png" : "/fABgif.GIF"}
+            src={done ? "/FALOGONO2.png" : "/FALOGONO.GIF"}
             alt="Animation"
             className="w-full h-auto object-contain"
           />
