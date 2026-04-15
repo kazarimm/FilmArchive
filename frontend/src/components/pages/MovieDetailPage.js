@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import { UserContext } from "../../App";
-import { useParams, useNavigate} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../../css/moviedetailpage.css";
 // eslint-disable-next-line no-unused-vars
 import getUserInfo from "../../utilities/decodeJwt";
@@ -10,7 +10,6 @@ const MovieDetailPage = () => {
   const { imdbID } = useParams();
   const user = useContext(UserContext);
 
-  const navigate = useNavigate();
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -66,14 +65,6 @@ const MovieDetailPage = () => {
     loadWatchlist();
   }, [imdbID, API_KEY, loadComments, loadWatchlist]);
 
-  const decideWatchlistAction = () => {
-    if (isInWatchlist()) {
-      removeFromWatchlist();
-    } else {
-      addToWatchlist();
-    }
-  };
-
   const addToWatchlist = async () => {
     if (!user) return alert("You must be logged in!");
     try {
@@ -87,18 +78,6 @@ const MovieDetailPage = () => {
     } catch (err) {
       console.error(err);
       alert("Failed to add to watchlist.");
-    }
-  };
-
-  const removeFromWatchlist = async () => {
-    if (!user) return alert("You must be logged in!");
-    try {
-      await axios.delete(`http://localhost:8081/watchlist/remove/${user.id}/${selectedMovie.imdbID}`);
-      alert("Removed from watchlist!");
-      loadWatchlist();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to remove from watchlist.");
     }
   };
 
@@ -189,16 +168,6 @@ const MovieDetailPage = () => {
       />
 
       <div className="movie-detail-overlay">
-
-        <button
-          className="back-btn"
-          onClick={() => {
-            if (window.history.length > 1) navigate(-1);
-            else navigate("/");
-          }}
-        >
-          ← Return to Previous Page
-        </button>
         <div className="movie-info">
           <h1>{selectedMovie.Title}</h1>
           <div className="movie-detail-flex">
@@ -212,12 +181,10 @@ const MovieDetailPage = () => {
               <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
               {user && (
                 <div className="watchlist-container">
-                  
-                  
                   <button
                     className="add-watchlist-btn"
-                    onClick={decideWatchlistAction}
-
+                    onClick={addToWatchlist}
+                    disabled={isInWatchlist()}
                   >
                     {isInWatchlist() ? "In Watchlist" : "Add to Watchlist"}
                   </button>

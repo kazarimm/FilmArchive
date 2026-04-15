@@ -7,7 +7,7 @@ const Landingpage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDone(true);
-    }, 3000); // change this to match gif length
+    }, 3000); // match gif length (ms)
 
     return () => clearTimeout(timer);
   }, []);
@@ -15,13 +15,15 @@ const Landingpage = () => {
   return (
     <div className="bg-black text-white min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        
-        {/* GIF / Final Frame */}
-        <img
-          src={done ? "/FA.png" : "/FALogo.GIF"}
-          alt="Animation"
-          className="w-500 h-auto"
-        />
+
+        {/* GIF / PNG */}
+        <div className="w-[1000px]">
+          <img
+            src={done ? "/FALogo.png" : "/fABgif.GIF"}
+            alt="Animation"
+            className="w-full h-auto object-contain"
+          />
+        </div>
 
         {/* Card */}
         <Card style={{ width: "30rem" }} className="mx-2 my-2">
