@@ -19,6 +19,20 @@ const MovieDetailPage = () => {
   const [watchlist, setWatchlist] = useState([]);
   const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
+  // 🔥 FLAG FUNCTION
+  const handleFlag = async (commentId) => {
+    try {
+      await axios.post("http://localhost:8081/commentFlags/add", {
+        commentId: commentId,
+        reviewStatus: "pending"
+      });
+      alert("Comment flagged successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to flag comment.");
+    }
+  };
+
   const loadComments = useCallback(async () => {
     try {
       const res = await axios.get(`http://localhost:8081/comments/${imdbID}`);
@@ -67,12 +81,10 @@ const MovieDetailPage = () => {
   }, [imdbID, API_KEY, loadComments, loadWatchlist]);
 
   const decideWatchlistAction = () => {
-    if (isInWatchlist()) {
-      removeFromWatchlist();
-    } else {
-      addToWatchlist();
-    }
+    if (isInWatchlist()) removeFromWatchlist();
+    else addToWatchlist();
   };
+
   const addToWatchlist = async () => {
     if (!user) return alert("You must be logged in!");
     try {
@@ -134,11 +146,30 @@ const MovieDetailPage = () => {
     return tree;
   };
 
+  // 🔥 UPDATED COMMENTS RENDER WITH FLAG BUTTON
   const renderComments = (commentList) =>
     commentList.map((c) => (
       <div key={c._id} className="comment-card">
         <strong>{c.username}</strong>
         <p>{c.content}</p>
+
+        {/* FLAG BUTTON */}
+        {user && (
+          <button
+            onClick={() => handleFlag(c._id)}
+            style={{
+              marginTop: "5px",
+              padding: "5px 10px",
+              backgroundColor: "red",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}
+          >
+            Flag
+          </button>
+        )}
 
         {user && (
           <div className="reply-form">
@@ -188,7 +219,7 @@ const MovieDetailPage = () => {
       />
 
       <div className="movie-detail-overlay">
-      <button
+        <button
           className="back-btn"
           onClick={() => {
             if (window.history.length > 1) navigate(-1);
@@ -197,17 +228,21 @@ const MovieDetailPage = () => {
         >
           ← Return to Previous Page
         </button>
+
         <div className="movie-info">
           <h1>{selectedMovie.Title}</h1>
+
           <div className="movie-detail-flex">
             {selectedMovie.Poster && selectedMovie.Poster !== "N/A" && (
               <img src={selectedMovie.Poster} alt={selectedMovie.Title} className="front-poster" />
             )}
+
             <div className="movie-detail-text">
               <p><strong>Year:</strong> {selectedMovie.Year}</p>
               <p><strong>Genre:</strong> {selectedMovie.Genre}</p>
               <p><strong>Director:</strong> {selectedMovie.Director}</p>
               <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
+
               {user && (
                 <div className="watchlist-container">
                   <button
@@ -223,6 +258,7 @@ const MovieDetailPage = () => {
 
           <div className="comments-section">
             <h3>Comments</h3>
+
             {user ? (
               <div className="comment-form">
                 <input
@@ -233,13 +269,17 @@ const MovieDetailPage = () => {
                   placeholder="Write a comment..."
                   onKeyDown={(e) => { if (e.key === "Enter") postComment(); }}
                 />
-                <button className="comment-submit-btn" onClick={() => postComment()}>Post</button>
+                <button className="comment-submit-btn" onClick={() => postComment()}>
+                  Post
+                </button>
               </div>
             ) : (
               <p className="login-prompt">Log in to post comments.</p>
             )}
 
-            <div className="comments-list">{renderComments(buildCommentTree(comments))}</div>
+            <div className="comments-list">
+              {renderComments(buildCommentTree(comments))}
+            </div>
           </div>
         </div>
       </div>
