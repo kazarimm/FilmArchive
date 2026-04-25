@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaCog } from "react-icons/fa";
+import { FaCog, FaHeart, FaRegHeart } from "react-icons/fa";
 import "../../css/watchlistCard.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) => {
+const WatchlistCard = ({
+  film,
+  watchedStatus,
+  liked,
+  onRemove,
+  onToggleWatchedStatus,
+  onToggleLikedStatus
+}) => {
   const [movie, setMovie] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -27,7 +34,6 @@ const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) 
     fetchMovieData();
   }, [film.imdbID, API_KEY]);
 
-  //click outside menu to close menu
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -44,7 +50,6 @@ const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) 
     };
   }, [menuOpen]);
 
- //Click esc to exit menu
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") {
@@ -65,11 +70,18 @@ const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) 
 
   return (
     <div className="film-card">
+      <button
+        className={`favorite-button ${liked ? "liked" : ""}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggleLikedStatus(film.imdbID, liked);
+        }}
+        title={liked ? "Remove from favorites" : "Add to favorites"}
+      >
+        {liked ? <FaHeart /> : <FaRegHeart />}
+      </button>
 
-      {/* MENU WRAPPER */}
       <div ref={menuRef}>
-
-        {/* GEAR BUTTON */}
         <button
           className={`film-menu-button ${menuOpen ? "open" : ""}`}
           onClick={(e) => {
@@ -80,7 +92,6 @@ const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) 
           <FaCog />
         </button>
 
-        {/* DROPDOWN */}
         {menuOpen && (
           <div className="film-dropdown">
             <button
@@ -92,16 +103,18 @@ const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) 
               Remove from Watchlist
             </button>
 
-            <button onClick={() => {
-              onToggleWatchedStatus(film.imdbID, film.watchedStatus);
-              setMenuOpen(false);
-            }}>{buttonMessage}</button>
+            <button
+              onClick={() => {
+                onToggleWatchedStatus(film.imdbID, film.watchedStatus);
+                setMenuOpen(false);
+              }}
+            >
+              {buttonMessage}
+            </button>
           </div>
         )}
-
       </div>
 
-      {/* POSTER */}
       <img
         onClick={() => navigate(`/films/${movie.imdbID}`)}
         src={movie.Poster !== "N/A" ? movie.Poster : ""}
@@ -109,7 +122,6 @@ const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) 
         className="film-poster"
       />
 
-      {/* INFO */}
       <div className="film-info">
         <h5>{movie.Title}</h5>
         <p>{movie.Year}</p>

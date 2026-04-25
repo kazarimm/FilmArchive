@@ -4,7 +4,7 @@ const UserWatchList = require("../../models/userWatchlists");
 
 router.patch("/update", async (req, res) => {
   try {
-    const { userId, imdbID, watchedStatus } = req.body;
+    const { userId, imdbID, watchedStatus, liked } = req.body;
 
     if (!userId || !imdbID) {
       return res.status(400).json({
@@ -20,9 +20,7 @@ router.patch("/update", async (req, res) => {
       });
     }
 
-    const film = watchlist.films.find(
-      film => film.imdbID === imdbID
-    );
+    const film = watchlist.films.find((film) => film.imdbID === imdbID);
 
     if (!film) {
       return res.status(404).json({
@@ -30,20 +28,23 @@ router.patch("/update", async (req, res) => {
       });
     }
 
-    film.watchedStatus =
-      watchedStatus === true || watchedStatus === "true";
+    if (watchedStatus !== undefined) {
+      film.watchedStatus =
+        watchedStatus === true || watchedStatus === "true";
 
-    film.watchedAt = film.watchedStatus
-      ? new Date()
-      : null;
+      film.watchedAt = film.watchedStatus ? new Date() : null;
+    }
+
+    if (liked !== undefined) {
+      film.liked = liked === true || liked === "true";
+    }
 
     await watchlist.save();
 
     res.status(200).json({
-      message: "Watch status updated",
+      message: "Watchlist film updated",
       film
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({
