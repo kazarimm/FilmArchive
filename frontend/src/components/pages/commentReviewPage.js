@@ -3,6 +3,7 @@ import axios from "axios";
 
 const CommentReviewPage = () => {
   const [flags, setFlags] = useState([]);
+  const [message, setMessage] = useState(""); // ✅ NEW
 
   useEffect(() => {
     fetchFlagsWithComments();
@@ -10,13 +11,12 @@ const CommentReviewPage = () => {
 
   const fetchFlagsWithComments = async () => {
     try {
-      // Step 1: Get all flags
       const res = await axios.get("http://localhost:8081/commentFlags/getAll");
-      const flagsData = res.data;
 
-      // Step 2: Fetch comments for each flag and attach them
+      const pendingFlags = res.data.filter(f => f.reviewStatus === "pending");
+
       const updatedFlags = await Promise.all(
-        flagsData.map(async (flag) => {
+        pendingFlags.map(async (flag) => {
           try {
             const commentRes = await axios.get(
               `http://localhost:8081/comments/${flag.commentId}`
@@ -24,55 +24,97 @@ const CommentReviewPage = () => {
 
             return {
               ...flag,
-              comment: commentRes.data // ✅ attach comment directly
+              comment: commentRes.data
             };
-          } catch (err) {
-            console.error("Error fetching comment:", err);
-
-            return {
-              ...flag,
-              comment: null
-            };
+          } catch {
+            return { ...flag, comment: null };
           }
         })
       );
 
-      // Step 3: Save updated flags
       setFlags(updatedFlags);
-
     } catch (error) {
-      console.error("Error fetching flags:", error);
+      console.error(error);
+    }
+  };
+
+  const handleUnflag = async (flagId) => {
+    try {
+      await axios.put(`http://localhost:8081/commentFlags/unflag/${flagId}`);
+
+      // remove from UI
+      setFlags(prev => prev.filter(f => f._id !== flagId));
+
+      // ✅ show success message
+      setMessage("Successfully unflagged");
+
+      // ✅ auto-hide message after 2 seconds
+      setTimeout(() => setMessage(""), 2000);
+
+    } catch (err) {
+      console.error(err);
+      alert("Failed to unflag comment");
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Comment Review Page</h2>
+    <div
+      style={{
+        padding: "20px",
+        backgroundColor: "#0d0d0d",
+        minHeight: "100vh",
+        color: "white"
+      }}
+    >
+      <h2 style={{ color: "red" }}>Comment Review Page</h2>
 
-      <h3>Flagged Comments</h3>
+      {/* ✅ SUCCESS MESSAGE */}
+      {message && (
+        <p style={{ color: "limegreen", marginBottom: "15px" }}>
+          {message}
+        </p>
+      )}
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
         {flags.map((flag) => (
           <div
             key={flag._id}
             style={{
-              border: "1px solid #ccc",
+              border: "1px solid red",
               borderRadius: "10px",
               padding: "15px",
               width: "300px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              backgroundColor: "#fff"
+              boxShadow: "0 0 10px rgba(255,0,0,0.4)",
+              backgroundColor: "#1a1a1a"
             }}
           >
-            <p><strong>Comment ID:</strong> {flag.commentId}</p>
+            <p><strong style={{ color: "red" }}>Comment ID:</strong> {flag.commentId}</p>
 
             <p>
-              <strong>Comment:</strong><br />
+              <strong style={{ color: "red" }}>Comment:</strong><br />
               {flag.comment ? flag.comment.content : "Comment not found"}
             </p>
 
-            <p><strong>Reason:</strong> {flag.reason}</p>
-            <p><strong>Status:</strong> {flag.reviewStatus}</p>
+            <p><strong style={{ color: "red" }}>Reason:</strong> {flag.reason}</p>
+
+            <p>
+              <strong style={{ color: "red" }}>Status:</strong> {flag.reviewStatus}
+            </p>
+
+            <button
+              onClick={() => handleUnflag(flag._id)}
+              style={{
+                marginTop: "10px",
+                padding: "6px 12px",
+                backgroundColor: "red",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer"
+              }}
+            >
+              Unflag
+            </button>
           </div>
         ))}
       </div>
