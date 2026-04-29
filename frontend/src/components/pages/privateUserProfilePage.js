@@ -24,7 +24,7 @@ const PrivateUserProfile = () => {
   useEffect(() => {
     const decodedUser = getUserInfo();
     setUser(decodedUser);
-  
+
     if (decodedUser) {
       axios
         .get("http://localhost:8081/user/getAll")
@@ -34,7 +34,7 @@ const PrivateUserProfile = () => {
               u.username === decodedUser.username ||
               u.email === decodedUser.email
           );
-  
+
           if (matchedUser) {
             setUser(matchedUser);
             setBio(matchedUser.bio || "");
@@ -47,22 +47,22 @@ const PrivateUserProfile = () => {
   }, []);
 
   const handleSaveBio = async () => {
-  try {
-    const userId = user._id || user.id || user.userId;
+    try {
+      const userId = user._id || user.id || user.userId;
 
-    const res = await axios.put(
-      `http://localhost:8081/user/updateBio/${userId}`,
-      { bio }
-    );
+      const res = await axios.put(
+        `http://localhost:8081/user/updateBio/${userId}`,
+        { bio }
+      );
 
-    setUser(res.data);
-    setBio(res.data.bio || "");
-    setMessage("Bio updated successfully.");
-  } catch (error) {
-    console.error(error);
-    setMessage("Failed to update bio.");
-  }
-};
+      setUser(res.data);
+      setBio(res.data.bio || "");
+      setMessage("Bio updated successfully.");
+    } catch (error) {
+      console.error(error);
+      setMessage("Failed to update bio.");
+    }
+  };
 
   if (!user) {
     return (
@@ -74,18 +74,13 @@ const PrivateUserProfile = () => {
 
   return (
     <div className="profile-page">
-      <div className="profile-topbar">
-        <div className="brand-box">
-          <div className="brand-icon">🎞</div>
-          <span className="brand-text">Film Archive</span>
-        </div>
 
-        <button className="topbar-logout-btn" onClick={handleShow}>
-          Logout
-        </button>
-      </div>
+      {/* TOP BAR (now empty / clean) */}
+      <div className="profile-topbar"></div>
 
+      {/* MAIN CONTENT */}
       <div className="profile-wrapper">
+
         <div className="profile-card">
           <div className="profile-left">
             <div className="profile-avatar">
@@ -96,23 +91,42 @@ const PrivateUserProfile = () => {
               <h1>{user.username}</h1>
               <p>{user.email || "No email available"}</p>
               <span>Film Archive Member</span>
-              {bio && <p className="saved-bio-preview">{bio}</p>}
+
+              {bio && (
+                <p className="saved-bio-preview">{bio}</p>
+              )}
             </div>
           </div>
 
+          {/* ACTION BUTTONS (logout stays here only) */}
           <div className="profile-actions">
-          <button className="action-btn" onClick={() => navigate("/edit-profile")}>
-  Edit Profile
-</button>
+            <button
+              className="action-btn"
+              onClick={() => navigate("/edit-profile")}
+            >
+              Edit Profile
+            </button>
 
-<button className="action-btn" onClick={() => navigate("/change-password")}>
-  Change Password
-</button>
+            <button
+              className="action-btn"
+              onClick={() => navigate("/change-password")}
+            >
+              Change Password
+            </button>
+
+            <button
+              className="action-btn"
+              onClick={handleShow}
+            >
+              Logout
+            </button>
           </div>
         </div>
 
+        {/* BIO SECTION */}
         <div className="bio-card">
           <h2>Biography</h2>
+
           <p className="bio-subtext">
             Add a short biography like your favorite movies, genres, or anything
             you want people to know about you.
@@ -132,24 +146,39 @@ const PrivateUserProfile = () => {
             </button>
           </div>
 
-          {message && <p className="status-message">{message}</p>}
+          {message && (
+            <p className="status-message">{message}</p>
+          )}
         </div>
+
       </div>
 
-      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+      {/* MODAL */}
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Log Out</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to log out?</Modal.Body>
+
+        <Modal.Body>
+          Are you sure you want to log out?
+        </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+
           <Button variant="danger" onClick={handleLogout}>
             Yes
           </Button>
         </Modal.Footer>
       </Modal>
+
     </div>
   );
 };

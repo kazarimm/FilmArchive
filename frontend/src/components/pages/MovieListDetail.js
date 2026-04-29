@@ -1,27 +1,23 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import { UserContext } from "../../App";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import imdbIDs from "../../data/imdb_ids_us_recent.json";
 import "../../css/filmsPage.css";
 
-const MovieListDetail = () => {
-  const [movies, setMovies] = useState([]);
-  const [watchlistMovies] = useState([]);
+const MovieListDetail = ({ embedded = false }) => {
+  const [movies, setMovies] = useState(null);
   const [revealedRMovies, setRevealedRMovies] = useState(new Set());
 
   const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
-  // eslint-disable-next-line no-unused-vars
-  const user = useContext(UserContext); // kept for future use
-  const location = useLocation();
   const navigate = useNavigate();
+  const { search } = useLocation();
 
-  const query = new URLSearchParams(location.search).get("search") || "";
+  const query = new URLSearchParams(search).get("search") || "";
 
   const toggleRevealR = (imdbID) => {
     setRevealedRMovies((prev) => {
       const newSet = new Set(prev);
-      newSet.add(imdbID); // only reveal, no hiding again
+      newSet.add(imdbID);
       return newSet;
     });
   };
@@ -38,22 +34,22 @@ const MovieListDetail = () => {
     return true;
   };
 
-  // Pick random IMDb IDs from the JSON
   const getRandomIDs = (count) => {
     const shuffled = [...imdbIDs].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, count);
   };
 
-  // Fetch random movies until we have enough valid ones
   const fetchRandomMovies = useCallback(async () => {
     try {
+      setMovies(null);
+
       let collectedMovies = [];
       let attempts = 0;
 
       while (collectedMovies.length < 25 && attempts < 10) {
         attempts++;
 
-        const selectedIDs = getRandomIDs(40); // grab more than needed
+        const selectedIDs = getRandomIDs(40);
 
         const results = await Promise.all(
           selectedIDs.map(async (id) => {
@@ -72,7 +68,6 @@ const MovieListDetail = () => {
 
         collectedMovies = [...collectedMovies, ...validMovies];
 
-        // remove duplicates by imdbID
         collectedMovies = collectedMovies.filter(
           (movie, index, self) =>
             index === self.findIndex((m) => m.imdbID === movie.imdbID)
@@ -82,20 +77,22 @@ const MovieListDetail = () => {
       setMovies(collectedMovies.slice(0, 25));
     } catch (err) {
       console.error("Failed to load random movies:", err);
+      setMovies([]);
     }
   }, [API_KEY]);
 
-  // Search movies normally if user searches
   const searchMovies = useCallback(async () => {
     if (!query) return;
 
     try {
+      setMovies(null);
+
       const res = await fetch(
         `https://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`
       );
       const data = await res.json();
 
-      if (!data.Search) {
+      if (!data.Search || data.Response === "False") {
         setMovies([]);
         return;
       }
@@ -118,102 +115,93 @@ const MovieListDetail = () => {
       setMovies(filteredMovies);
     } catch (err) {
       console.error("Search failed:", err);
+      setMovies([]);
     }
   }, [query, API_KEY]);
 
-  // Reload movies every time Films tab is entered
   useEffect(() => {
     if (query) {
       searchMovies();
     } else {
       fetchRandomMovies();
     }
-  }, [query, searchMovies, fetchRandomMovies, location.pathname]);
+  }, [query, searchMovies, fetchRandomMovies]);
+
+  const isLoading = movies === null;
+  const isEmpty = movies && movies.length === 0;
 
   return (
-    <div className="films-page">
-      {watchlistMovies.length > 0 && !query && (
-        <>
-          <h1 className="films-title">Your Watchlist</h1>
-          <div className="films-row">
-            {watchlistMovies.map((movie) => (
-              <div
-                className="film-card"
-                key={movie.imdbID}
-                onClick={() => navigate(`/films/${movie.imdbID}`)}
-              >
-                <img
-                  src={movie.Poster !== "N/A" ? movie.Poster : ""}
-                  alt={movie.Title}
-                  className="film-poster"
-                />
-                <div className="film-info">
-                  <h5>{movie.Title}</h5>
-                  <p>{movie.Year}</p>
-                </div>
-              </div>
-            ))}
+    <div
+      className={`films-page text-white min-h-screen ${
+        embedded ? "" : "bg-black"
+      }`}
+    >
+      {isLoading ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-gray-400 animate-pulse">
+            Loading movies...
           </div>
-        </>
-      )}
-
-      <h1 className="films-title">
-        {query ? `Search Results for "${query}"` : "Top Picks for You"}
-      </h1>
-
-      {movies.length > 0 ? (
-        <div className="films-row">
-          {movies.map((movie) => {
-            const isRatedR = movie.Rated === "R";
-            const isRevealed = revealedRMovies.has(movie.imdbID);
-
-            const handleClick = () => {
-              // block click if R and not confirmed
-              if (isRatedR && !isRevealed) return;
-              navigate(`/films/${movie.imdbID}`);
-            };
-
-            return (
-              <div
-                className={`film-card ${
-                  isRatedR && !isRevealed ? "restricted-card" : ""
-                }`}
-                key={movie.imdbID}
-                onClick={handleClick}
-              >
-                <img
-                  src={movie.Poster !== "N/A" ? movie.Poster : ""}
-                  alt={movie.Title}
-                  className={`film-poster ${
-                    isRatedR && !isRevealed ? "blurred-poster" : ""
-                  }`}
-                />
-
-                {isRatedR && !isRevealed && (
-                  <div className="rated-r-overlay">
-                    <p>18+ Restricted</p>
-                    <button
-                      className="reveal-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleRevealR(movie.imdbID);
-                      }}
-                    >
-                      I am 18+
-                    </button>
-                  </div>
-                )}
-
-                <div className="film-info">
-                  <h5>{movie.Title}</h5>
-                  <p>{movie.Year}</p>
-                </div>
-              </div>
-            );
-          })}
+        </div>
+      ) : isEmpty ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-gray-400">No films found</div>
         </div>
       ) : (
-        <p style={{ color: "white", marginTop: "20px" }}>No movies found.</p>
+        <>
+          <h1 className="films-title">
+            {query ? `Search Results for "${query}"` : "Top Picks for You"}
+          </h1>
+
+          <div className="films-row">
+            {movies.map((movie) => {
+              const isRatedR = movie.Rated === "R";
+              const isRevealed = revealedRMovies.has(movie.imdbID);
+
+              const handleClick = () => {
+                if (isRatedR && !isRevealed) return;
+                navigate(`/films/${movie.imdbID}`);
+              };
+
+              return (
+                <div
+                  className={`film-card ${
+                    isRatedR && !isRevealed ? "restricted-card" : ""
+                  }`}
+                  key={movie.imdbID}
+                  onClick={handleClick}
+                >
+                  <img
+                    src={movie.Poster !== "N/A" ? movie.Poster : ""}
+                    alt={movie.Title}
+                    className={`film-poster ${
+                      isRatedR && !isRevealed ? "blurred-poster" : ""
+                    }`}
+                  />
+
+                  {isRatedR && !isRevealed && (
+                    <div className="rated-r-overlay">
+                      <p>18+ Restricted</p>
+                      <button
+                        className="reveal-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleRevealR(movie.imdbID);
+                        }}
+                      >
+                        I am 18+
+                      </button>
+                    </div>
+                  )}
+
+                  <div className="film-info">
+                    <h5>{movie.Title}</h5>
+                    <p>{movie.Year}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
       )}
     </div>
   );

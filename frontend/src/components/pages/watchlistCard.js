@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaCog } from "react-icons/fa";
 import "../../css/watchlistCard.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const WatchlistCard = ({ film, watchedStatus, onRemove, onToggleWatchedStatus}) => {
   const [movie, setMovie] = useState(null);
