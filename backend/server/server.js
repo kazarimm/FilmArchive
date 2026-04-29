@@ -2,6 +2,7 @@
 const updateProfileRoute = require("./routes/userUpdateProfile");
 const changePasswordRoute = require("./routes/userChangePassword");
 const express = require("express");
+const fetchCommentsByUser = require("./routes/commentRoute/fetchCommentsByUser");
 const app = express();
 const cors = require('cors')
 const loginRoute = require('./routes/userLogin')
@@ -28,6 +29,7 @@ const SERVER_PORT = 8081
 
 dbConnection()
 app.use(cors({origin: '*'}))
+app.use("/comments", fetchCommentsByUser);
 app.use(express.json())
 app.use('/user', loginRoute)
 app.use('/user', registerRoute)
