@@ -36,7 +36,7 @@ const Login = () => {
 
   useEffect(() => {
 
-    const obj = getUserInfo(user)
+    const obj = getUserInfo()
     setUser(obj)
 
     if (light) {
