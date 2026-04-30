@@ -5,7 +5,7 @@ import getUserInfo from "../../utilities/decodeJwt";
 import "../../css/changePasswordPage.css";
 
 const ChangePasswordPage = () => {
-  const [user, setUser] = useState({});
+  const [setUser] = useState({});
   const [dbUserId, setDbUserId] = useState("");
   const [formData, setFormData] = useState({
     currentPassword: "",

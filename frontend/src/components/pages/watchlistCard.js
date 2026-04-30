@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const WatchlistCard = ({
   film,
-  watchedStatus,
   liked,
   onRemove,
   onToggleWatchedStatus,
