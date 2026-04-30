@@ -243,6 +243,19 @@ const MovieDetailPage = () => {
               <p><strong>Director:</strong> {selectedMovie.Director}</p>
               <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
 
+              {selectedMovie?.Actors && (
+                <div className="cast-section">
+                  <p><strong>Cast:</strong></p>
+
+                  <div className="cast-container">
+                    {selectedMovie.Actors.split(", ").map((actor, index) => (
+                      <div key={index} className="cast-card">
+                        {actor}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               {user && (
                 <div className="watchlist-container">
                   <button
