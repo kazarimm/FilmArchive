@@ -248,11 +248,19 @@ const MovieDetailPage = () => {
                   <p><strong>Cast:</strong></p>
 
                   <div className="cast-container">
-                    {selectedMovie.Actors.split(", ").map((actor, index) => (
-                      <div key={index} className="cast-card">
-                        {actor}
-                      </div>
-                    ))}
+                    {selectedMovie.Actors.split(", ").map((actor, index) => {
+                      const wikiUrl = `https://en.wikipedia.org/wiki/${actor.replace(/ /g, "_")}`;
+
+                      return (
+                        <button
+                          key={index}
+                          className="cast-card"
+                          onClick={() => window.open(wikiUrl, "_blank")}
+                        >
+                          {actor}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
