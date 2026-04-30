@@ -84,6 +84,7 @@ export default function Navbar() {
           <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
           <Nav.Link href="/movies">Films</Nav.Link>
           <Nav.Link href="/watchlist">Watchlist</Nav.Link>
+          <Nav.Link href="/reviewComments">Review Comments</Nav.Link>
         </Nav>
 
         {/* RIGHT: SEARCH */}
