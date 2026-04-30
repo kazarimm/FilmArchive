@@ -9,34 +9,83 @@
   z-index: 9999;
 }
 
-/* Nav links */
+/* FULL WIDTH LAYOUT */
+.custom-navbar .container {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LEFT: LOGO */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+/* REMOVE HOVER BOX FROM LOGO */
+.custom-navbar .nav-left .nav-link {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.custom-navbar .nav-left .nav-link:hover {
+  background: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* CENTER: NAV LINKS */
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* NAV LINKS */
 .custom-navbar .nav-link {
-  color: rgba(255, 255, 255, 0.8) !important;
-  font-size: 16px;
-  font-weight: 500;
-  margin-right: 15px;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 20px;
+  font-weight: 600;
   transition: all 0.2s ease;
   text-shadow:
     1px 1px 0 rgb(0, 0, 0),
    -1px 1px 0 black,
     1px -1px 0 black,
-   -1px -1px 0 black; /* creates a thin border around text */
+   -1px -1px 0 black;
+  padding: 6px 10px;
+  border-radius: 6px;
 }
 
-
-
+/* NAV HOVER (TEXT ONLY) */
 .custom-navbar .nav-link:hover {
   color: white !important;
   transform: scale(1.05);
+  background: none !important; /* removes hover box */
 }
 
-/* Active link look */
+/* ACTIVE LINK */
 .custom-navbar .nav-link.active {
   color: red !important;
   font-weight: bold;
 }
 
-/* Search input */
+/* LOGO */
+.start-button-img {
+  height: 80px;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: block;
+}
+
+.start-button-img:hover {
+  transform: scale(1.05);
+}
+
+/* SEARCH INPUT */
 .custom-navbar input.form-control {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -55,7 +104,7 @@
   border-color: rgba(255, 0, 0, 0.6);
 }
 
-/* Search button */
+/* SEARCH BUTTON */
 .custom-navbar button {
   border-radius: 25px;
   padding: 10px 18px;
@@ -69,7 +118,7 @@
   border-color: red !important;
 }
 
-/* Dropdown suggestions */
+/* SEARCH DROPDOWN */
 .search-dropdown {
   position: absolute;
   top: 40px;
