@@ -5,7 +5,7 @@ import getUserInfo from "../../utilities/decodeJwt";
 import "../../css/editProfilePage.css";
 
 const EditProfilePage = () => {
-  const [setUser] = useState({});
+  const [user, setUser] = useState({});
   const [dbUserId, setDbUserId] = useState("");
   const [formData, setFormData] = useState({
     username: "",
