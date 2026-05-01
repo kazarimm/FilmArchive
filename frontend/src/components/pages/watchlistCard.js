@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaCog, FaHeart, FaRegHeart } from "react-icons/fa";
 import "../../css/watchlistCard.css";
-<<<<<<< HEAD
-import {  useNavigate } from "react-router-dom";
-=======
 import { useNavigate } from "react-router-dom";
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
 
 const WatchlistCard = ({
   film,

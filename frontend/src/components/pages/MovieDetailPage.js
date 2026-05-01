@@ -17,18 +17,8 @@ const MovieDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [watchlist, setWatchlist] = useState([]);
-  const [collapsedThreads, setCollapsedThreads] = useState({});
-
   const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
-<<<<<<< HEAD
-  const toggleThread = (commentId) => {
-    setCollapsedThreads((prev) => ({
-      ...prev,
-      [commentId]: !prev[commentId],
-    }));
-  }
-=======
   // 🔥 FLAG FUNCTION
   const handleFlag = async (commentId) => {
     try {
@@ -42,7 +32,6 @@ const MovieDetailPage = () => {
       alert("Failed to flag comment.");
     }
   };
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
 
   const loadComments = useCallback(async () => {
     try {
@@ -147,70 +136,16 @@ const MovieDetailPage = () => {
   };
 
   const buildCommentTree = (allComments) => {
-  const map = {};
-  allComments.forEach(c => (map[c._id] = { ...c, replies: [] }));
+    const map = {};
+    allComments.forEach(c => (map[c._id] = { ...c, replies: [] }));
+    const tree = [];
+    allComments.forEach(c => {
+      if (c.parentCommentId) map[c.parentCommentId]?.replies.push(map[c._id]);
+      else tree.push(map[c._id]);
+    });
+    return tree;
+  };
 
-<<<<<<< HEAD
-  const tree = [];
-
-  allComments.forEach(c => {
-    if (c.parentCommentId && map[c.parentCommentId]) {
-      map[c.parentCommentId].replies.push(map[c._id]);
-    } else {
-      tree.push(map[c._id]);
-    }
-  });
-
-  return tree;
-};
-
-const renderComments = (commentList, depth = 0) =>
-    commentList.map((c) => {
-      const isCollapsed = collapsedThreads[c._id];
-
-      return (
-        <div key={c._id} className="comment-thread">
-
-          <div className="comment-row" style={{ marginLeft: depth * 24 }}>
-
-            {depth > 0 && <div className="thread-line" />}
-
-            <div className="comment-body">
-
-              <div className="comment-meta">
-                <strong>{c.username}</strong>
-              </div>
-
-              <p className="comment-content">{c.content}</p>
-
-              {c.replies?.length > 0 && (
-                <button
-                  className="toggle-replies-btn"
-                  onClick={() => toggleThread(c._id)}
-                >
-                  {isCollapsed
-                    ? `Show replies (${c.replies.length})`
-                    : `Hide replies (${c.replies.length})`}
-                </button>
-              )}
-
-              {user && (
-                <div className="reply-form">
-                  <input
-                    type="text"
-                    className="comment-input"
-                    placeholder="Reply..."
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && e.target.value.trim()) {
-                        postComment(c._id, e.target.value);
-                        e.target.value = "";
-                      }
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-=======
   // 🔥 UPDATED COMMENTS RENDER WITH FLAG BUTTON
   const renderComments = (commentList) =>
     commentList.map((c) => (
@@ -256,17 +191,14 @@ const renderComments = (commentList, depth = 0) =>
                 }
               }}
             />
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
           </div>
+        )}
 
-          {!isCollapsed && c.replies?.length > 0 && (
-            <div className="replies-container">
-              {renderComments(c.replies, depth + 1)}
-            </div>
-          )}
-        </div>
-      );
-    });
+        {c.replies.length > 0 && (
+          <div className="comment-replies">{renderComments(c.replies)}</div>
+        )}
+      </div>
+    ));
 
   if (loading) return <p className="text-center mt-5 text-white">Loading movie...</p>;
   if (error) return <p className="text-center mt-5 text-white">{error}</p>;

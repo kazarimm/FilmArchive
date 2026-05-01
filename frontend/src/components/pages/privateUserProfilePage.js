@@ -99,10 +99,6 @@ const PrivateUserProfile = () => {
 
   useEffect(() => {
     const decodedUser = getUserInfo();
-<<<<<<< HEAD
-    setUser(decodedUser);
-=======
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
 
     if (decodedUser) {
       axios
@@ -129,27 +125,6 @@ const PrivateUserProfile = () => {
     }
   }, []);
 
-<<<<<<< HEAD
-  const handleSaveBio = async () => {
-    try {
-      const userId = user._id || user.id || user.userId;
-
-      const res = await axios.put(
-        `http://localhost:8081/user/updateBio/${userId}`,
-        { bio }
-      );
-
-      setUser(res.data);
-      setBio(res.data.bio || "");
-      setMessage("Bio updated successfully.");
-    } catch (error) {
-      console.error(error);
-      setMessage("Failed to update bio.");
-    }
-  };
-
-=======
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
   if (!user) {
     return (
       <div className="profile-dashboard">
@@ -159,19 +134,6 @@ const PrivateUserProfile = () => {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="profile-page">
-
-      {/* TOP BAR (now empty / clean) */}
-      <div className="profile-topbar"></div>
-
-      {/* MAIN CONTENT */}
-      <div className="profile-wrapper">
-
-        <div className="profile-card">
-          <div className="profile-left">
-            <div className="profile-avatar">
-=======
     <div className="profile-dashboard">
       <div className="profile-app-header">
         <div className="profile-logo-box">
@@ -188,29 +150,11 @@ const PrivateUserProfile = () => {
         <div className="profile-hero-card">
           <div className="profile-main-info">
             <div className="profile-avatar-modern">
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
               {user.username ? user.username.charAt(0).toUpperCase() : "U"}
             </div>
 
             <div>
               <h1>{user.username}</h1>
-<<<<<<< HEAD
-              <p>{user.email || "No email available"}</p>
-              <span>Film Archive Member</span>
-
-              {bio && (
-                <p className="saved-bio-preview">{bio}</p>
-              )}
-            </div>
-          </div>
-
-          {/* ACTION BUTTONS (logout stays here only) */}
-          <div className="profile-actions">
-            <button
-              className="action-btn"
-              onClick={() => navigate("/edit-profile")}
-            >
-=======
               <p className="profile-email">{user.email}</p>
 
               <div className="profile-badges">
@@ -223,56 +167,10 @@ const PrivateUserProfile = () => {
 
           <div className="profile-action-buttons">
             <button onClick={() => navigate("/edit-profile")}>
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
               Edit Profile
             </button>
 
             <button
-<<<<<<< HEAD
-              className="action-btn"
-              onClick={() => navigate("/change-password")}
-            >
-              Change Password
-            </button>
-
-            <button
-              className="action-btn"
-              onClick={handleShow}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-
-        {/* BIO SECTION */}
-        <div className="bio-card">
-          <h2>Biography</h2>
-
-          <p className="bio-subtext">
-            Add a short biography like your favorite movies, genres, or anything
-            you want people to know about you.
-          </p>
-
-          <textarea
-            className="bio-textarea"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Write something about yourself..."
-            rows="5"
-          />
-
-          <div className="bio-actions">
-            <button className="save-bio-btn" onClick={handleSaveBio}>
-              Save Bio
-            </button>
-          </div>
-
-          {message && (
-            <p className="status-message">{message}</p>
-          )}
-        </div>
-
-=======
               className="danger-btn"
               onClick={() => navigate("/change-password")}
             >
@@ -396,27 +294,14 @@ const PrivateUserProfile = () => {
             )}
           </div>
         )}
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
       </div>
 
-      {/* MODAL */}
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
+      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>Log Out</Modal.Title>
         </Modal.Header>
 
-<<<<<<< HEAD
-        <Modal.Body>
-          Are you sure you want to log out?
-        </Modal.Body>
-=======
         <Modal.Body>Are you sure you want to log out?</Modal.Body>
->>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
 
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -428,7 +313,6 @@ const PrivateUserProfile = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </div>
   );
 };
