@@ -6,18 +6,42 @@ const Landingpage = () => {
   const [done, setDone] = useState(false);
   const [started, setStarted] = useState(false);
   const [search, setSearch] = useState("");
+  const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    const checkAuth = () => {
+  const savedUser = localStorage.getItem("user");
+  try {
+    if (savedUser && savedUser !== "undefined" && savedUser !== "null") {
+      setUser(JSON.parse(savedUser));
+    } else {
+      setUser(null);
+    }
+  } catch (e) {
+    console.error("Error parsing user from storage", e);
+    setUser(null);
+  }
+};
+
+
+    // 2. Run check immediately on load
+    checkAuth();
+
+    // 3. Listen for storage changes (handles logins/logouts across tabs)
+    window.addEventListener("storage", checkAuth);
+
     const timer = setTimeout(() => {
       setDone(true);
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      clearTimeout(timer);
+    };
   }, []);
 
-  // 🎯 unified search handler (button + enter)
   const handleSearch = () => {
     if (!search.trim()) return;
     navigate(`/movies?search=${search}`);
@@ -28,10 +52,16 @@ const Landingpage = () => {
     window.scrollTo(0, 0);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    setUser(null); // Instantly updates UI
+  };
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-white">
 
-      {/* 🎥 BACKGROUND (FIXED FULL HEIGHT BLUR LAYER) */}
+      {/* 🎥 BACKGROUND */}
       <div
         className="absolute inset-0 w-full h-full transition-all duration-700"
         style={{
@@ -43,7 +73,7 @@ const Landingpage = () => {
         <MovieListDetail embedded={true} />
       </div>
 
-      {/* 🌑 OVERLAY (FULL COVER FIX) */}
+      {/* 🌑 OVERLAY */}
       <div
         className="absolute inset-0 w-full h-full bg-black transition-opacity duration-700"
         style={{
@@ -79,7 +109,7 @@ const Landingpage = () => {
           Start
         </button>
 
-        {/* SEARCH BAR (ENTER KEY FIXED) */}
+        {/* SEARCH BAR */}
         <div className="flex items-center gap-2 w-[600px] bg-black/60 border border-white/20 rounded-full px-4 py-2 backdrop-blur-md">
           <input
             value={search}
@@ -101,24 +131,34 @@ const Landingpage = () => {
           </button>
         </div>
 
-        {/* LOGIN / SIGNUP */}
-        <div className="flex gap-4">
+        {/* AUTH BUTTONS SECTION */}
+       {/* AUTH BUTTONS SECTION */}
+<div className="flex gap-4 items-center">
+  {user ? (
+    <>
+      {/* Check if user.username exists specifically */}
+      <span className="text-gray-300 font-medium">
+        Hi, {user.username || 'Member'}!
+      </span>
+      <button
+        onClick={handleLogout}
+        className="px-5 py-2 border border-red-600 text-red-500 rounded-full hover:bg-red-600 hover:text-white transition"
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <>
+      <button onClick={() => navigate("/signup")} className="px-5 py-2 border border-white/40 rounded-full hover:bg-white hover:text-black transition">
+        Sign Up
+      </button>
+      <button onClick={() => navigate("/login")} className="px-5 py-2 border border-white/40 rounded-full hover:bg-white hover:text-black transition">
+        Login
+      </button>
+    </>
+  )}
+</div>
 
-          <button
-            onClick={() => navigate("/signup")}
-            className="px-5 py-2 border border-white/40 rounded-full hover:bg-white hover:text-black transition"
-          >
-            Sign Up
-          </button>
-
-          <button
-            onClick={() => navigate("/login")}
-            className="px-5 py-2 border border-white/40 rounded-full hover:bg-white hover:text-black transition"
-          >
-            Login
-          </button>
-
-        </div>
       </div>
     </div>
   );

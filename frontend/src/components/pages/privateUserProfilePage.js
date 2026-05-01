@@ -135,17 +135,8 @@ const PrivateUserProfile = () => {
 
   return (
     <div className="profile-dashboard">
-      <div className="profile-app-header">
-        <div className="profile-logo-box">
-          <div className="profile-logo">🎞️</div>
-          <h2>Film Archive</h2>
-        </div>
-
-        <button className="header-logout-btn" onClick={handleShow}>
-          Logout
-        </button>
-      </div>
-
+      
+      {/* HERO CONTENT */}
       <div className="profile-dashboard-content">
         <div className="profile-hero-card">
           <div className="profile-main-info">
@@ -157,14 +148,13 @@ const PrivateUserProfile = () => {
               <h1>{user.username}</h1>
               <p className="profile-email">{user.email}</p>
 
-              <div className="profile-badges">
-                <span className="member-badge">Film Archive Member</span>
-              </div>
+             
 
               {bio && <p className="profile-bio-text">{bio}</p>}
             </div>
           </div>
 
+          {/* ACTION BUTTONS */}
           <div className="profile-action-buttons">
             <button onClick={() => navigate("/edit-profile")}>
               Edit Profile
@@ -175,6 +165,14 @@ const PrivateUserProfile = () => {
               onClick={() => navigate("/change-password")}
             >
               Change Password
+            </button>
+
+            {/* MOVED LOGOUT HERE */}
+            <button
+              className="danger-btn"
+              onClick={handleShow}
+            >
+              Logout
             </button>
           </div>
         </div>
@@ -296,6 +294,7 @@ const PrivateUserProfile = () => {
         )}
       </div>
 
+      {/* LOGOUT MODAL (UNCHANGED) */}
       <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>Log Out</Modal.Title>
