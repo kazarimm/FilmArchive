@@ -2,6 +2,7 @@
 const updateProfileRoute = require("./routes/userUpdateProfile");
 const changePasswordRoute = require("./routes/userChangePassword");
 const express = require("express");
+const fetchCommentsByUser = require("./routes/commentRoute/fetchCommentsByUser");
 const app = express();
 const cors = require('cors')
 const loginRoute = require('./routes/userLogin')
@@ -11,6 +12,7 @@ const getUserByIdRoute = require('./routes/userGetUserById')
 const dbConnection = require('./config/db.config')
 const editUser = require('./routes/userEditUser')
 const deleteUser = require('./routes/userDeleteAll')
+const unflagComment = require('./routes/commentFlags/unflagCommentFlag')
 const addCommentFlag = require('./routes/commentFlags/postCommentFlag')
 const getAllCommentFlags = require('./routes/commentFlags/getCommentFlags')
 const addWatchlistItem = require('./routes/watchlist/addWatchlist')
@@ -27,6 +29,7 @@ const SERVER_PORT = 8081
 
 dbConnection()
 app.use(cors({origin: '*'}))
+app.use("/comments", fetchCommentsByUser);
 app.use(express.json())
 app.use('/user', loginRoute)
 app.use('/user', registerRoute)
@@ -37,6 +40,7 @@ app.use('/user', deleteUser)
 app.use('/user', deleteUser)
 app.use('/commentFlags', addCommentFlag)
 app.use('/commentFlags', getAllCommentFlags)
+app.use('/commentFlags', unflagComment)
 app.use('/watchlist', addWatchlistItem)
 app.use('/watchlist', fetchWatchlistItem)
 app.use('/comments', addCommentRoutes);

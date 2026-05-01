@@ -112,7 +112,11 @@ const Landingpage = () => {
           </button>
 
           <button
+<<<<<<< HEAD
             onClick={() => navigate("/privateUserProfile")}
+=======
+            onClick={() => navigate("/login")}
+>>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
             className="px-5 py-2 border border-white/40 rounded-full hover:bg-white hover:text-black transition"
           >
             Login

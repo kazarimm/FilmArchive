@@ -21,12 +21,28 @@ const MovieDetailPage = () => {
 
   const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
+<<<<<<< HEAD
   const toggleThread = (commentId) => {
     setCollapsedThreads((prev) => ({
       ...prev,
       [commentId]: !prev[commentId],
     }));
   }
+=======
+  // 🔥 FLAG FUNCTION
+  const handleFlag = async (commentId) => {
+    try {
+      await axios.post("http://localhost:8081/commentFlags/add", {
+        commentId: commentId,
+        reviewStatus: "pending"
+      });
+      alert("Comment flagged successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to flag comment.");
+    }
+  };
+>>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
 
   const loadComments = useCallback(async () => {
     try {
@@ -76,12 +92,10 @@ const MovieDetailPage = () => {
   }, [imdbID, API_KEY, loadComments, loadWatchlist]);
 
   const decideWatchlistAction = () => {
-    if (isInWatchlist()) {
-      removeFromWatchlist();
-    } else {
-      addToWatchlist();
-    }
+    if (isInWatchlist()) removeFromWatchlist();
+    else addToWatchlist();
   };
+
   const addToWatchlist = async () => {
     if (!user) return alert("You must be logged in!");
     try {
@@ -136,6 +150,7 @@ const MovieDetailPage = () => {
   const map = {};
   allComments.forEach(c => (map[c._id] = { ...c, replies: [] }));
 
+<<<<<<< HEAD
   const tree = [];
 
   allComments.forEach(c => {
@@ -195,6 +210,53 @@ const renderComments = (commentList, depth = 0) =>
                 </div>
               )}
             </div>
+=======
+  // 🔥 UPDATED COMMENTS RENDER WITH FLAG BUTTON
+  const renderComments = (commentList) =>
+    commentList.map((c) => (
+      <div key={c._id} className="comment-card">
+        <strong>{c.username}</strong>
+        <p>{c.content}</p>
+
+        {/* FLAG BUTTON */}
+        {user && (
+          <button
+            onClick={() => handleFlag(c._id)}
+            style={{
+              marginTop: "5px",
+              padding: "5px 10px",
+              backgroundColor: "red",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}
+          >
+            Flag
+          </button>
+        )}
+
+        {user && (
+          <div className="reply-form">
+            <input
+              type="text"
+              placeholder="Reply..."
+              className="comment-input"
+              onKeyDown={async (e) => {
+                if (e.key === "Enter" && e.target.value.trim()) {
+                  await axios.post("http://localhost:8081/comments/create", {
+                    imdbID,
+                    userId: user.id,
+                    username: user.username,
+                    content: e.target.value,
+                    parentCommentId: c._id,
+                  });
+                  e.target.value = "";
+                  loadComments();
+                }
+              }}
+            />
+>>>>>>> f5ceefbb73ced70026bfca6e2505b7809b54d653
           </div>
 
           {!isCollapsed && c.replies?.length > 0 && (
@@ -225,7 +287,7 @@ const renderComments = (commentList, depth = 0) =>
       />
 
       <div className="movie-detail-overlay">
-      <button
+        <button
           className="back-btn"
           onClick={() => {
             if (window.history.length > 1) navigate(-1);
@@ -234,17 +296,42 @@ const renderComments = (commentList, depth = 0) =>
         >
           ← Return to Previous Page
         </button>
+
         <div className="movie-info">
           <h1>{selectedMovie.Title}</h1>
+
           <div className="movie-detail-flex">
             {selectedMovie.Poster && selectedMovie.Poster !== "N/A" && (
               <img src={selectedMovie.Poster} alt={selectedMovie.Title} className="front-poster" />
             )}
+
             <div className="movie-detail-text">
               <p><strong>Year:</strong> {selectedMovie.Year}</p>
               <p><strong>Genre:</strong> {selectedMovie.Genre}</p>
               <p><strong>Director:</strong> {selectedMovie.Director}</p>
               <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
+
+              {selectedMovie?.Actors && (
+                <div className="cast-section">
+                  <p><strong>Cast:</strong></p>
+
+                  <div className="cast-container">
+                    {selectedMovie.Actors.split(", ").map((actor, index) => {
+                      const wikiUrl = `https://en.wikipedia.org/wiki/${actor.replace(/ /g, "_")}`;
+
+                      return (
+                        <button
+                          key={index}
+                          className="cast-card"
+                          onClick={() => window.open(wikiUrl, "_blank")}
+                        >
+                          {actor}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               {user && (
                 <div className="watchlist-container">
                   <button
@@ -260,6 +347,7 @@ const renderComments = (commentList, depth = 0) =>
 
           <div className="comments-section">
             <h3>Comments</h3>
+
             {user ? (
               <div className="comment-form">
                 <input
@@ -270,13 +358,17 @@ const renderComments = (commentList, depth = 0) =>
                   placeholder="Write a comment..."
                   onKeyDown={(e) => { if (e.key === "Enter") postComment(); }}
                 />
-                <button className="comment-submit-btn" onClick={() => postComment()}>Post</button>
+                <button className="comment-submit-btn" onClick={() => postComment()}>
+                  Post
+                </button>
               </div>
             ) : (
               <p className="login-prompt">Log in to post comments.</p>
             )}
 
-            <div className="comments-list">{renderComments(buildCommentTree(comments))}</div>
+            <div className="comments-list">
+              {renderComments(buildCommentTree(comments))}
+            </div>
           </div>
         </div>
       </div>
