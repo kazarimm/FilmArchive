@@ -36,7 +36,7 @@ const Login = () => {
 
   useEffect(() => {
 
-    const obj = getUserInfo(user)
+    const obj = getUserInfo()
     setUser(obj)
 
     if (light) {
@@ -49,23 +49,36 @@ const Login = () => {
   }, [light]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data: res } = await axios.post(url, data);
-      const { accessToken } = res;
-      //store token in localStorage
-      localStorage.setItem("accessToken", accessToken);
-      navigate("/home");
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
-      }
+  e.preventDefault();
+  try {
+    const { data: res } = await axios.post(url, data);
+    const { accessToken } = res;
+
+    // FIRST: Save the token
+    localStorage.setItem("accessToken", accessToken);
+
+    // SECOND: Get the info. 
+    // If getUserInfo() reads from localStorage, it needs that token to exist first.
+    const userInfo = getUserInfo(); 
+    
+    if (userInfo) {
+        // Save the actual object so Landingpage can find it
+        localStorage.setItem("user", JSON.stringify(userInfo));
+    } else {
+        // Fallback: If your utility fails, save a basic object from your form data
+        localStorage.setItem("user", JSON.stringify({ username: data.username }));
     }
-  };
+
+    // THIRD: Force the app to restart at the root
+    window.location.href = "/"; 
+    
+  } catch (error) {
+    // ... your error handling
+    setError("Login failed. Please check your credentials.");
+  }
+};
+
+
 
   if(user) {
     navigate('/home')

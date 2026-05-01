@@ -21,7 +21,6 @@ export default function Navbar() {
     setUser(getUserInfo());
   }, []);
 
-  // Debounced live search
   useEffect(() => {
     if (!query.trim()) {
       setSuggestions([]);
@@ -37,7 +36,7 @@ export default function Navbar() {
         const data = await res.json();
 
         if (data.Search) {
-          setSuggestions(data.Search.slice(0, 6)); // top 6 matches
+          setSuggestions(data.Search.slice(0, 6));
           setShowDropdown(true);
         } else {
           setSuggestions([]);
@@ -46,7 +45,7 @@ export default function Navbar() {
       } catch (err) {
         console.error(err);
       }
-    }, 300); // debounce delay
+    }, 300);
 
     return () => clearTimeout(delay);
   }, [query, API_KEY]);
@@ -67,16 +66,28 @@ export default function Navbar() {
 
   return (
     <ReactNavbar bg="dark" variant="dark" className="custom-navbar">
-      <Container>
-        <Nav className="me-auto">
-          <Nav.Link href="/">Start</Nav.Link>
-          <Nav.Link href="/home">Home</Nav.Link>
+      <Container className="navbar-inner">
+
+        {/* LEFT: LOGO */}
+        <Nav className="nav-left">
+          <Nav.Link href="/" className="d-flex align-items-center">
+            <img
+              src="/FALOGONO2.png"
+              alt="Start"
+              className="start-button-img"
+            />
+          </Nav.Link>
+        </Nav>
+
+        {/* CENTER: LINKS */}
+        <Nav className="nav-center">
           <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
           <Nav.Link href="/movies">Films</Nav.Link>
           <Nav.Link href="/watchlist">Watchlist</Nav.Link>
-          <Nav.Link href="/reviewComments">Comment Review</Nav.Link>
+          <Nav.Link href="/reviewComments">Review Comments</Nav.Link>
         </Nav>
 
+        {/* RIGHT: SEARCH */}
         <Form className="d-flex position-relative" onSubmit={handleSearch}>
           <Form.Control
             type="text"
@@ -113,6 +124,7 @@ export default function Navbar() {
             </div>
           )}
         </Form>
+
       </Container>
     </ReactNavbar>
   );

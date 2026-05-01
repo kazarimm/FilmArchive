@@ -243,6 +243,27 @@ const MovieDetailPage = () => {
               <p><strong>Director:</strong> {selectedMovie.Director}</p>
               <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
 
+              {selectedMovie?.Actors && (
+                <div className="cast-section">
+                  <p><strong>Cast:</strong></p>
+
+                  <div className="cast-container">
+                    {selectedMovie.Actors.split(", ").map((actor, index) => {
+                      const wikiUrl = `https://en.wikipedia.org/wiki/${actor.replace(/ /g, "_")}`;
+
+                      return (
+                        <button
+                          key={index}
+                          className="cast-card"
+                          onClick={() => window.open(wikiUrl, "_blank")}
+                        >
+                          {actor}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               {user && (
                 <div className="watchlist-container">
                   <button
