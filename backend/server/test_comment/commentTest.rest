@@ -17,7 +17,7 @@ bycommentid
 
 ###
 
-GET http://localhost:8081/comments/localhost:8081/comments/bycommentid/69a1d941b3d6ddcab5fb852c/69cbfd24ceccb7c914568a09
+GET http://localhost:8081/comments/bycommentid/69a1d941b3d6ddcab5fb852c
 
 ###
 

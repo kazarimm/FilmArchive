@@ -19,7 +19,7 @@ const CommentReviewPage = () => {
         pendingFlags.map(async (flag) => {
           try {
             const commentRes = await axios.get(
-              `http://localhost:8081/comments/${flag.commentId}`
+              `http://localhost:8081/comments/bycommentid/${flag.commentId}`
             );
 
             return {
@@ -39,23 +39,31 @@ const CommentReviewPage = () => {
   };
 
   const handleUnflag = async (flagId) => {
-    try {
-      await axios.put(`http://localhost:8081/commentFlags/unflag/${flagId}`);
+  try {
+    const res = await axios.put(
+      `http://localhost:8081/commentFlags/unflag/${flagId}`
+    );
 
-      // remove from UI
-      setFlags(prev => prev.filter(f => f._id !== flagId));
+    if (res.status === 200) {
+      setFlags((prev) => prev.filter((f) => f._id !== flagId));
 
-      // ✅ show success message
-      setMessage("Successfully unflagged");
+      setMessage("Successfully unflagged comment");
 
-      // ✅ auto-hide message after 2 seconds
-      setTimeout(() => setMessage(""), 2000);
-
-    } catch (err) {
-      console.error(err);
-      alert("Failed to unflag comment");
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
     }
-  };
+
+  } catch (err) {
+    console.error("Unflag error:", err);
+
+    setMessage("Failed to unflag comment");
+
+    setTimeout(() => {
+      setMessage("");
+    }, 2000);
+  }
+};
 
   return (
     <div
@@ -92,7 +100,7 @@ const CommentReviewPage = () => {
 
             <p>
               <strong style={{ color: "red" }}>Comment:</strong><br />
-              {flag.comment ? flag.comment.content : "Comment not found"}
+              {flag.comment ? flag.comment[0].content : "Comment not found"}
             </p>
 
             <p><strong style={{ color: "red" }}>Reason:</strong> {flag.reason}</p>
