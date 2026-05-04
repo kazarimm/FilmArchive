@@ -3,8 +3,16 @@ const updateProfileRoute = require("./routes/userUpdateProfile");
 const changePasswordRoute = require("./routes/userChangePassword");
 const express = require("express");
 const fetchCommentsByUser = require("./routes/commentRoute/fetchCommentsByUser");
-const app = express();
 const cors = require('cors')
+require('dotenv').config();
+
+const app = express();
+
+app.use(cors({origin: '*'}))
+app.use(express.json())
+
+const SERVER_PORT = process.env.PORT || 8081
+
 const loginRoute = require('./routes/userLogin')
 const getAllUsersRoute = require('./routes/userGetAllUsers')
 const registerRoute = require('./routes/userSignUp')
@@ -24,13 +32,10 @@ const fetchCommentById = require('./routes/commentRoute/fetchCommentByCommentId'
 const updateBioRoute = require("./routes/userUpdateBio");
 const removeFromWatchlist = require("./routes/watchlist/removeWatchlist");
 const updateWatchlist = require("./routes/watchlist/updateWatchlist");
-require('dotenv').config();
-const SERVER_PORT = process.env.SERVER_PORT || 8081
+
 
 dbConnection()
-app.use(cors({origin: '*'}))
 app.use("/comments", fetchCommentsByUser);
-app.use(express.json())
 app.use('/user', loginRoute)
 app.use('/user', registerRoute)
 app.use('/user', getAllUsersRoute)
