@@ -21,7 +21,7 @@ const ChangePasswordPage = () => {
 
     if (decodedUser) {
       axios
-        .get("http://localhost:8081/user/getAll")
+        .get(`${process.env.REACT_APP_BACKEND_SERVER_URI}/user/getAll`)
         .then((res) => {
           const matchedUser = res.data.find(
             (u) =>
@@ -64,7 +64,7 @@ const ChangePasswordPage = () => {
       }
 
       await axios.put(
-        `http://localhost:8081/user/changePassword/${dbUserId}`,
+        `${process.env.REACT_APP_BACKEND_SERVER_URI}/user/changePassword/${dbUserId}`,
         {
           currentPassword: formData.currentPassword,
           newPassword: formData.newPassword
