@@ -57,6 +57,7 @@ const Login = () => {
         password: data.password
       }
     );
+    console.log("Login response:", res);
     const { accessToken } = res;
 
     // FIRST: Save the token
