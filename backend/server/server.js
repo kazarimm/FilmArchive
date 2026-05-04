@@ -25,7 +25,7 @@ const updateBioRoute = require("./routes/userUpdateBio");
 const removeFromWatchlist = require("./routes/watchlist/removeWatchlist");
 const updateWatchlist = require("./routes/watchlist/updateWatchlist");
 require('dotenv').config();
-const SERVER_PORT = 8081
+const SERVER_PORT = process.env.SERVER_PORT || 8081
 
 dbConnection()
 app.use(cors({origin: '*'}))
