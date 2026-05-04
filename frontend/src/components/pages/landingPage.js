@@ -95,7 +95,7 @@ const Landingpage = () => {
         {/* LOGO */}
         <div className="w-[800px]">
           <img
-            src={done ? "/FALOGONO2.png" : "/FALOGONO.GIF"}
+            src={done ? "/FALOGONO2.png" : "/FALOGONO.gif"}
             alt="logo"
             className="w-full object-contain"
           />
