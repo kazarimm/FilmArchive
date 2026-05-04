@@ -51,7 +51,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const { data: res } = await axios.post(url, data);
+    const { data: res } = await axios.post(url, 
+      {
+        username: data.username,
+        password: data.password
+      }
+    );
     const { accessToken } = res;
 
     // FIRST: Save the token
