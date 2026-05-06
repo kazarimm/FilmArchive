@@ -110,7 +110,7 @@ const CommentReviewPage = () => {
             </p>
 
             <button
-              onClick={() => handleUnflag(flag._id)}
+              onClick={() => handleUnflag(flag.commentId)}
               style={{
                 marginTop: "10px",
                 padding: "6px 12px",
